@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-#from apps.job.forms.jobaddform import JobAddForm
+from apps.job.forms import JobAddForm
 from apps.application.forms.applicationaddform import ApplicationAddForm
 from apps.application.models.application import Application
 
@@ -16,16 +16,16 @@ def application_add_view(request):
 
             job = jobform.save(commit=False)
             job.user = request.user
-            newjob = job.save()
+            job.save()
 
             app = appform.save(commit=False)
             app.user = request.user
-            app.job = newjob
-            newapp = app.save()
+            app.job = job
+            app.save()
 
             context = {}
-            context = {"job": newjob}
-            context = {"application": newapp}
+            context = {"job": job}
+            context = {"application": app}
             return render(request, "application_added.html", context)
 
     else:
