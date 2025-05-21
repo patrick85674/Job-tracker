@@ -5,7 +5,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from apps.application.models.application import Application
 
 
-class ApplicationAddForm(forms.Form):
+class ApplicationAddForm(forms.ModelForm):
     position_title = forms.CharField(
         max_length=Application.MAX_POSITION_TITLE_LENGTH,
         required=False,
@@ -67,3 +67,9 @@ class ApplicationAddForm(forms.Form):
         required=False,
         label=_("Comment"),
     )
+
+    class Meta:
+        model = Application
+        fields = ["position_title", "company_name", "job_link", "status",
+                  "applied_date", "job_description", "contact_name",
+                  "contact_email", "contact_phone", "platform", "comment"]
