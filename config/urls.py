@@ -23,5 +23,4 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("user/", include("apps.user.urls")),
     path("", include("apps.application.urls")),
-    path('', home_view, name='home'),        # Homepage and other public route
 ]

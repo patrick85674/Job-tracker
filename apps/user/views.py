@@ -10,7 +10,6 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -22,7 +21,13 @@ def login_view(request):
             login(request, user)
             return redirect("home")
         else:
-            messages.error(request, "Invalid username or password")
+            failed_attempts = request.session.get('failed_attempts', 0) + 1
+            request.session['failed_attempts'] = failed_attempts
+
+            if failed_attempts >= 3:
+                messages.error(request, "Too many failed attempts. Forgot your password?")
+            else:
+                messages.error(request, "Invalid username or password.")
 
     return render(request, "login.html")
 
@@ -38,7 +43,7 @@ def home_view(request):
 
 
 class RegisterView(FormView):
-    template_name = 'user/register.html'
+    template_name = 'register.html'
     form_class = UserRegisterForm
     success_url = reverse_lazy('home')  # Redirect after successful registration
 
@@ -50,5 +55,3 @@ class RegisterView(FormView):
         user.save()
         login(self.request, user)  # Automatically log in the user
         return super().form_valid(form)
-        # login(request, user)  # Auto login after registration
-        # return redirect("home")
