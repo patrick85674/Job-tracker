@@ -17,7 +17,7 @@ class JobAddForm(forms.ModelForm):
         max_length=200,
         required=True,
         widget=forms.TextInput(
-            attrs={"placeholder": "Enter Jobname/Position..."}
+            attrs={"placeholder": _("Enter Jobname/Position...")}
         ),
     )
 
@@ -25,7 +25,7 @@ class JobAddForm(forms.ModelForm):
         label=_("Job link"),
         max_length=300,
         required=False,
-        widget=forms.TextInput(attrs={"placeholder": "Enter link..."}),
+        widget=forms.TextInput(attrs={"placeholder": _("Enter link...")}),
     )
 
     job_description = forms.CharField(
@@ -33,6 +33,6 @@ class JobAddForm(forms.ModelForm):
         max_length=2000,
         required=False,
         widget=forms.Textarea(
-            attrs={"placeholder": "Enter a description..."}
+            attrs={"placeholder": _("Enter a description...")}
         ),
     )
