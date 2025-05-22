@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def home_view(request):
-    return HttpResponse("Homepage coming soon.")
+    return HttpResponse("Dashboard coming soon.")
 
 
 class RegisterView(FormView):

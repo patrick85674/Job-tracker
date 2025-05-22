@@ -19,5 +19,3 @@ class CustomPasswordValidator:
         return _(
             "Your password must include at least one letter and one number."
         )
-
-# password validation in settings.py AUTH_PASSWORD_VALIDATORS
