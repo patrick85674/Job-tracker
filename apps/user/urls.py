@@ -1,12 +1,16 @@
 from django.urls import path
-from . import views
-from .views import RegisterView
+from .views import (
+    RegisterView,
+    CustomLoginView,
+    logout_view,
+    home_view,
+)
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('home/', views.home_view, name='home'),
+    path("login/", CustomLoginView.as_view(), name="login"),
+    path("logout/", logout_view, name="logout"),
+    path("home/", home_view, name="home"),
     path('register/', RegisterView.as_view(), name='register'),
 
     # Password reset URLs

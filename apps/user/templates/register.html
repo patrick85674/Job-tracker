@@ -1,75 +1,38 @@
+{% extends "main.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <style>
-        .form-container {
-            max-width: 400px;
-            margin: 40px auto;
-            font-family: Arial, sans-serif;
-        }
-        .form-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .form-row label {
-            width: 120px;
-            font-weight: bold;
-        }
-        .form-row input {
-            flex: 1;
-            padding: 8px;
-        }
-        .help-text, .errorlist {
-            font-size: 0.9em;
-            color: #555;
-            margin: 0 0 10px 120px;
-        }
-        .errorlist {
-            color: red;
-        }
-        .submit-btn {
-            margin-left: 120px;
-            padding: 8px 16px;
-        }
-    </style>
-</head>
-<body>
-<div class="form-container">
-    <h2>Create an Account</h2>
 
-    <form method="POST">
-        {% csrf_token %}
+{% block title %}Register{% endblock %}
 
-        {% for field in form %}
-            <div class="form-row">
-                {{ field.label_tag }}
-                {{ field }}
-            </div>
-            {% if field.errors %}
-                <div class="errorlist">{{ field.errors|striptags }}</div>
-            {% endif %}
-            {% if field.help_text %}
-                <div class="help-text">{{ field.help_text }}</div>
-            {% endif %}
-        {% endfor %}
+{% block content %}
+  <h2>Register</h2>
 
-        <button type="submit" class="submit-btn">Register</button>
-    </form>
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
 
+  <form method="post">
+    {% csrf_token %}
     
-    <div class="link">
-        <p>Already have an account?
-          <a href="{% url 'login' %}">Login</a>
-        </p>
-    </div>
-    
-    
-</div>
-</body>
-</html>
+    {% for field in form %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+      {{ field }}<br>
+      
+      {% if field.errors %}
+        <p style="color: red;">{{ field.errors|striptags }}</p>
+      {% endif %}
+      
+      {% if field.help_text %}
+        <p style="font-size: 0.9em; color: #555;">{{ field.help_text }}</p>
+      {% endif %}
+      
+      <br>
+    {% endfor %}
 
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}
 
