@@ -38,6 +38,7 @@ class Application(DateColumns):
         COMPANY_WEBSITE = 1, _("Company website")
         INDEED = 2, "Indeed"
         LINKEDIN = 3, "LinkedIn"
+        UNDEFINED = 4, _("Undefined")
 
     # id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(
