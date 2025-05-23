@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% load i18n %}
+{% block main %}
+
+<form method="post">
+    {% csrf_token %}
+    <table id="application_edit_form_table">
+        {{ jobform.as_table }}
+        {{ appform.as_table }}
+        <tr><td></td><td id="application_edit_submit_parent">
+            <input type="submit" value="{% translate "Update" %}">
+        </td></tr>
+    </table>
+</form>
+
+{% endblock %}
