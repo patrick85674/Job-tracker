@@ -6,22 +6,6 @@ from apps.application.models.application import Application
 
 
 class ApplicationAddForm(forms.ModelForm):
-    position_title = forms.CharField(
-        max_length=Application.MAX_POSITION_TITLE_LENGTH,
-        required=False,
-        label=_("Position title"),
-    )
-    company_name = forms.CharField(
-        max_length=Application.MAX_COMPANY_NAME_LENGTH,
-        required=False,
-        label=_("Company name"),
-    )
-    job_link = forms.URLField(
-        # max_length=Application.MAX_URL_LENGTH,
-        max_length=Application._meta.get_field("job_link").max_length,
-        required=False,
-        label=_("Job link"),
-    )
     status = forms.TypedChoiceField(
         required=False,
         choices=Application.status_type.choices,
@@ -32,27 +16,25 @@ class ApplicationAddForm(forms.ModelForm):
     applied_date = forms.DateTimeField(
         required=False,
         label=_("Applied date"),
-    )
-    job_description = forms.CharField(
-        widget=forms.Textarea,
-        max_length=Application.MAX_DESCRIPTION_LENGTH,
-        required=False,
-        label=_("Job description"),
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
     )
     contact_name = forms.CharField(
         max_length=Application.MAX_CONTACT_NAME_LENGTH,
         required=False,
         label=_("Contact name"),
+        widget=forms.TextInput(attrs={"placeholder": _("Enter the name...")}),
     )
     contact_email = forms.EmailField(
         # max_length=Application.MAX_EMAIL_LENGTH,
         max_length=Application._meta.get_field("contact_email").max_length,
         required=False,
         label=_("Contact E-Mail"),
+        widget=forms.TextInput(attrs={"placeholder": _("Enter the E-Mail...")}),
     )
     contact_phone = PhoneNumberField(
         required=False,
         label=_("Contact phone number"),
+        widget=forms.TextInput(attrs={"placeholder": ("Enter the number...")}),
     )
     platform = forms.TypedChoiceField(
         required=False,
@@ -62,14 +44,15 @@ class ApplicationAddForm(forms.ModelForm):
         coerce=int,
     )
     comment = forms.CharField(
-        widget=forms.Textarea,
         max_length=Application.MAX_COMMENT_LENGTH,
         required=False,
         label=_("Comment"),
+        widget=forms.Textarea(
+            attrs={"placeholder": _("Enter a comment...")}
+        ),
     )
 
     class Meta:
         model = Application
-        fields = ["position_title", "company_name", "job_link", "status",
-                  "applied_date", "job_description", "contact_name",
+        fields = ["status", "applied_date", "contact_name",
                   "contact_email", "contact_phone", "platform", "comment"]
