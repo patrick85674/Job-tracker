@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block main %}
+  <h1>Welcome, {{ request.user.username }}</h1>
+  
+  <section>
+    <h2>Your Jobs</h2>
+
+    <!-- Add filter input here -->
+    <input type="text" name="q" placeholder="Filter jobs..." 
+           hx-get="{% url 'dashboard:job_list_partial' %}" 
+           hx-trigger="keyup changed delay:500ms"
+           hx-target="#job-list"
+           hx-swap="innerHTML"
+           class="filter-input">
+
+    <div id="job-list">
+      {% include "../partials/job_list.html" %}
+    </div>
+  </section>
+{% endblock %}
