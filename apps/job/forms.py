@@ -36,3 +36,21 @@ class JobAddForm(forms.ModelForm):
             attrs={"placeholder": _("Enter a description...")}
         ),
     )
+
+    company_name = forms.CharField(
+        label=_("Company name"),
+        max_length=300,
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": _("Enter the name...")}
+        ),
+    )
+
+    location = forms.CharField(
+        label=_("Location"),
+        max_length=300,
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": _("Enter the location...")}
+        ),
+    )
