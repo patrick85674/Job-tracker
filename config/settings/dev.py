@@ -32,3 +32,7 @@ DATABASES = {
         'PORT': env.str('DB_PORT'),
     }
 }
+
+# Email backend for development — prints email to the console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
