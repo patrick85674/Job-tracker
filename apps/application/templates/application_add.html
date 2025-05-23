@@ -5,8 +5,14 @@
 <form method="post">
     {% csrf_token %}
     <table id="application_add_form_table">
-        {{ jobform.as_table }}
-        {{ appform.as_table }}
+        <fieldset>
+            <legend>{% translate "Job Information" %}</legend>
+            {{ jobform.as_p }}
+        </fieldset>
+        <fieldset>
+            <legend>{% translate "Application Information" %}</legend>
+            {{ appform.as_p }}
+        </fieldset>
         <tr><td></td><td id="application_add_submit_parent">
             <input type="submit" value="{% translate "Add" %}">
         </td></tr>
