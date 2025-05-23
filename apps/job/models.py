@@ -21,6 +21,18 @@ class Job(models.Model):
         null=True,
         blank=True,
     )
+    company_name = models.CharField(
+        max_length=254,
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+    location = models.CharField(
+        max_length=254,
+        null=True,
+        blank=True,
+        db_index=True,
+    )
 
     def __str__(self):
 
