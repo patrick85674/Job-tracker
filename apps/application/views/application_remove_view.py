@@ -16,4 +16,4 @@ def application_remove_view(request, id):
 
     context = {}
 
-    return render(request, "application_remove.html", context)
+    return render(request, "application_removed.html", context)
