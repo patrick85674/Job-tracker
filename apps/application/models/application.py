@@ -13,10 +13,6 @@ class DateColumns(models.Model):
 
 
 class Application(DateColumns):
-    MAX_POSITION_TITLE_LENGTH: int = 256
-    MAX_COMPANY_NAME_LENGTH: int = 256
-    # MAX_URL_LENGTH: int = 200  # django default value
-    MAX_DESCRIPTION_LENGTH: int = 8192
     MAX_CONTACT_NAME_LENGTH: int = 256
     # MAX_EMAIL_LENGTH: int = 254  # django default value
     MAX_COMMENT_LENGTH: int = 8192
@@ -50,23 +46,6 @@ class Application(DateColumns):
         null=False,
         blank=False,
     )
-    position_title = models.CharField(
-        max_length=MAX_POSITION_TITLE_LENGTH,
-        null=True,
-        blank=True,
-        db_index=True,
-    )
-    company_name = models.CharField(
-        max_length=MAX_COMPANY_NAME_LENGTH,
-        null=True,
-        blank=True,
-        db_index=True,
-    )
-    job_link = models.URLField(
-        # max_length=MAX_URL_LENGTH,
-        null=True,
-        blank=True,
-    )
     status = models.PositiveIntegerField(
         default=status_type.DRAFT,
         null=True
@@ -74,11 +53,6 @@ class Application(DateColumns):
     applied_date = models.DateTimeField(
         null=True,
         blank=True
-    )
-    job_description = models.TextField(
-        max_length=MAX_DESCRIPTION_LENGTH,
-        null=True,
-        blank=True,
     )
     contact_name = models.CharField(
         max_length=MAX_CONTACT_NAME_LENGTH,

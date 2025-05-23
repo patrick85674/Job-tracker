@@ -1,9 +1,11 @@
 <!-- dashboard/partials/job_list.html -->
 {% for job in jobs %}
   <div class="job-item">
-    <h3>{{ job.job_name }}</h3>
+    <div class="job-header">
+      <h3>{{ job.job_name }}</h3>
+      <a href="{{ job.link }}">Job Link</a>
+    </div>
     <p>{{ job.job_description }}</p>
-    <p><a href="{{ job.link }}">Job Link</a></p>
   </div>
 {% empty %}
   <p>No jobs found.</p>
