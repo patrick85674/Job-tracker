@@ -1,9 +1,8 @@
 {% extends "main.html" %}
-{% load static %}
 
 {% block title %}Register{% endblock %}
 
-{% block content %}
+{% block main %}
   <h2>Register</h2>
 
   {% if messages %}
@@ -35,4 +34,5 @@
 
   <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
 {% endblock %}
+
 

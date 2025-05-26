@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import (
     password_validators_help_text_html,
@@ -10,6 +9,7 @@ from django.contrib.auth.password_validation import (
 
 class UserRegisterForm(UserCreationForm):
     username = forms.CharField(
+        label="Username",
         max_length=50,
         required=True,
         widget=forms.TextInput(attrs={
@@ -19,6 +19,7 @@ class UserRegisterForm(UserCreationForm):
     )
 
     email = forms.EmailField(
+        label="Email",
         max_length=100,
         required=True,
         widget=forms.EmailInput(attrs={
@@ -55,9 +56,3 @@ class UserRegisterForm(UserCreationForm):
                 "A user with this email already exists."
             )
         return email
-
-
-class CustomLoginForm(AuthenticationForm):
-    username = forms.CharField(label="Username or Email") 
-
-# password1: The actual password. password2: The confirmation password.

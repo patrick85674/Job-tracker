@@ -2,7 +2,7 @@
 
 {% block title %}Login{% endblock %}
 
-{% block content %}
+{% block main %}
   <h2>Login</h2>
 
   {% if form.non_field_errors %}
@@ -14,10 +14,10 @@
   <form method="post">
     {% csrf_token %}
 
-    <label for="{{ form.username.id_for_label }}">Email or Username:</label><br>
+    <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label><br>
     {{ form.username }}<br><br>
 
-    <label for="{{ form.password.id_for_label }}">Password:</label><br>
+    <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label><br>
     {{ form.password }}<br><br>
 
     <button type="submit">Login</button>
@@ -26,4 +26,3 @@
   <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
   <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
 {% endblock %}
-
