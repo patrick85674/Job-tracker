@@ -1,0 +1,6 @@
+<h2>Add Job to Watchlist</h2>
+<form method="post" hx-post="{% url 'watchlist:add_job_to_watchlist' %}" hx-target="#watch-list" hx-swap="innerHTML">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>

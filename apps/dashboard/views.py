@@ -4,21 +4,22 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from apps.watchlist.models import Watchlist
+from apps.job.forms import JobAddForm   
 
 
 @login_required
 def dashboard_home(request):
-    # Show only watchlisted jobs
     watchlist_items = Watchlist.objects.filter(user=request.user).select_related("job")
+    form = JobAddForm()
 
     return render(
         request,
         "dashboard/dashboard.html",
         {
             "watchlist_items": watchlist_items,
+            "form": form,
         },
     )
-
 
 # @login_required
 # def job_list_partial(request):

@@ -21,6 +21,31 @@
       <div id="watch-list">
         {% include "partials/watchlist_list.html" %}
       </div>
+      
+      <!-- Button to toggle form -->
+      <button 
+        hx-get="{% url 'watchlist:add_job_to_watchlist' %}" 
+        hx-target="#job-form-container" 
+        hx-swap="outerHTML"
+        type="button"
+      >
+        + Add Job
+      </button>
+
+      <!-- Form will be dynamically loaded here -->
+      <div id="job-form-container"></div>
+
     </section>
   </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Reset and hide form container after successful HTMX request
+  document.body.addEventListener("htmx:afterRequest", function (evt) {
+    if (evt.detail.target.id === "job-form-container") {
+      document.getElementById("job-form-container").innerHTML = "";
+    }
+  });
+</script>
 {% endblock %}
