@@ -12,14 +12,14 @@
 
       <!-- Filter input -->
       <input type="text" name="q" placeholder="Filter jobs..." 
-             hx-get="{% url 'dashboard:job_list_partial' %}" 
+             hx-get="{% url 'watchlist:watch_list_partial' %}" 
              hx-trigger="keyup changed delay:500ms"
-             hx-target="#job-list"
+             hx-target="#watch-list"
              hx-swap="innerHTML"
              class="filter-input">
 
-      <div id="job-list">
-        {% include "../partials/job_list.html" %}
+      <div id="watch-list">
+        {% include "partials/watchlist_list.html" %}
       </div>
     </section>
   </div>

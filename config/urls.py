@@ -22,5 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("apps.application.urls")),
     path("dashboard/", include("apps.dashboard.urls", namespace="dashboard")),
+    path("watchlist/", include("apps.watchlist.urls")),
 
 ]

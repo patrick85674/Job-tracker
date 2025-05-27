@@ -1,6 +1,10 @@
 from django.urls import path
 from . import views
 
+
+app_name = "watchlist"
+
+
 urlpatterns = [
-    path("", views.watchlist_list, name="watchlist_list"),
+    path("partial/", views.watchlist_partial, name="watch_list_partial"),
 ]
