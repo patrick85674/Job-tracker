@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+  <h2>Register</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    
+    {% for field in form %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+      {{ field }}<br>
+      
+      {% if field.errors %}
+        <p style="color: red;">{{ field.errors|striptags }}</p>
+      {% endif %}
+      
+      {% if field.help_text %}
+        <p style="font-size: 0.9em; color: #555;">{{ field.help_text }}</p>
+      {% endif %}
+      
+      <br>
+    {% endfor %}
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}
+
+
