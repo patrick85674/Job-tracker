@@ -1,9 +1,13 @@
-from django.shortcuts import redirect
-from django.contrib.auth import login, logout
+from django.shortcuts import redirect, render
+from django.contrib.auth import login, logout, authenticate
 from django.views.generic import FormView, TemplateView
 from django.urls import reverse_lazy
 from .forms import UserRegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.views import View
+from .forms import EmailChangeForm, CustomPasswordChangeForm
 
 
 class RegisterView(FormView):
@@ -15,8 +19,8 @@ class RegisterView(FormView):
         user = form.save()
         login(self.request, user)
         return super().form_valid(form)
-        
-        
+       
+   
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
@@ -24,3 +28,67 @@ class HomeView(LoginRequiredMixin, TemplateView):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+# Single page for all account updates
+class AccountPageView(LoginRequiredMixin, View):
+    def get(self, request):
+        email_form = EmailChangeForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user)
+        return render(request, 'account_page.html', {
+            'email_form': email_form,
+            'password_form': password_form,
+        })
+
+    def post(self, request):
+        email_form = EmailChangeForm(data=request.POST, instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user,
+                                                 data=request.POST)
+
+        if 'email_submit' in request.POST:
+            if email_form.is_valid():
+                email_form.save()
+                messages.success(request, "Email updated successfully.")
+                return redirect('account_page')
+            else:
+                messages.error(
+                    request,
+                    "Please correct the errors in the email form."
+                )
+
+        elif 'password_submit' in request.POST:
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, "Password updated successfully.")
+                return redirect('account_page')
+            else:
+                messages.error(
+                    request,
+                    "Please correct the errors in the password form."
+                )
+
+        return render(request, 'account_page.html', {
+            'email_form': email_form,
+            'password_form': password_form,
+        })
+
+
+# ----------------- Delete Account View -----------------
+
+class DeleteAccountView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'account_delete.html')
+
+    def post(self, request):
+        password = request.POST.get("password")
+
+        user = authenticate(username=request.user.username, password=password)
+        if user is not None:
+            user.delete()
+            logout(request)
+            messages.success(request, "Your account has been deleted.")
+            return redirect('login')
+        else:
+            messages.error(request, "Password incorrect. Please try again.")
+            return render(request, 'account_delete.html')

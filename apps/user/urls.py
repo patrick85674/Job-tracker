@@ -3,6 +3,8 @@ from .views import (
     RegisterView,
     HomeView,
     logout_view,
+    AccountPageView,
+    DeleteAccountView,
 )
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView
@@ -34,4 +36,8 @@ urlpatterns = [
              template_name="password_reset_complete.html"
          ),
          name="password_reset_complete"),
+
+    # Account page URLs
+    path("account/", AccountPageView.as_view(), name="account_page"),
+    path("account/delete/", DeleteAccountView.as_view(), name="account_delete"),
 ]
