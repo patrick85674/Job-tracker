@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import (
     password_validators_help_text_html,
 )
-from django.contrib.auth import password_validation
 
 
 class UserRegisterForm(UserCreationForm):
@@ -135,4 +134,11 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             'class': 'form-control',
             'placeholder': 'Confirm new password'
         })
+    )
+
+
+class DeleteAccountForm(forms.Form):
+    password = forms.CharField(
+        label="Enter your password to confirm:",
+        widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
     )

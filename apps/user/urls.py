@@ -8,6 +8,8 @@ from .views import (
 )
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path("login/", LoginView.as_view(template_name='login.html'), name="login"),
@@ -39,5 +41,14 @@ urlpatterns = [
 
     # Account page URLs
     path("account/", AccountPageView.as_view(), name="account_page"),
-    path("account/delete/", DeleteAccountView.as_view(), name="account_delete"),
+    path("account/delete/", DeleteAccountView.as_view(),
+         name="account_delete"),
+    path(
+        "account/deleted/",
+        TemplateView.as_view(
+            template_name="account_deleted_confirmation.html"
+        ),
+        name="account_deleted",
+    ),
+
 ]

@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.views import View
 from .forms import EmailChangeForm, CustomPasswordChangeForm
+from .forms import DeleteAccountForm
 
 
 class RegisterView(FormView):
@@ -39,56 +40,64 @@ class AccountPageView(LoginRequiredMixin, View):
             'email_form': email_form,
             'password_form': password_form,
         })
-
+    
     def post(self, request):
-        email_form = EmailChangeForm(data=request.POST, instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user,
-                                                 data=request.POST)
-
         if 'email_submit' in request.POST:
+            email_form = EmailChangeForm(
+                data=request.POST,
+                instance=request.user
+            )
+            password_form = CustomPasswordChangeForm(user=request.user)
             if email_form.is_valid():
                 email_form.save()
                 messages.success(request, "Email updated successfully.")
                 return redirect('account_page')
-            else:
-                messages.error(
-                    request,
-                    "Please correct the errors in the email form."
-                )
 
         elif 'password_submit' in request.POST:
+            password_form = CustomPasswordChangeForm(
+                user=request.user,
+                data=request.POST
+            )
+            email_form = EmailChangeForm(instance=request.user)
             if password_form.is_valid():
                 user = password_form.save()
                 update_session_auth_hash(request, user)
                 messages.success(request, "Password updated successfully.")
                 return redirect('account_page')
-            else:
-                messages.error(
-                    request,
-                    "Please correct the errors in the password form."
-                )
 
-        return render(request, 'account_page.html', {
-            'email_form': email_form,
-            'password_form': password_form,
-        })
+        else:
+            email_form = EmailChangeForm(instance=request.user)
+            password_form = CustomPasswordChangeForm(user=request.user)
+
+        return render(
+            request,
+            'account_page.html',
+            {
+                'email_form': email_form,
+                'password_form': password_form,
+            }
+        )
 
 
 # ----------------- Delete Account View -----------------
 
 class DeleteAccountView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'account_delete.html')
+        form = DeleteAccountForm()
+        return render(request, 'account_delete.html', {'form': form})
 
     def post(self, request):
-        password = request.POST.get("password")
+        form = DeleteAccountForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data['password']
+            user = authenticate(username=request.user.username,
+                                password=password)
 
-        user = authenticate(username=request.user.username, password=password)
-        if user is not None:
-            user.delete()
-            logout(request)
-            messages.success(request, "Your account has been deleted.")
-            return redirect('login')
-        else:
-            messages.error(request, "Password incorrect. Please try again.")
-            return render(request, 'account_delete.html')
+            if user is not None:
+                user.delete()
+                logout(request)
+                return redirect('account_deleted')
+            else:
+                form.add_error('password', "Incorrect password.")
+        
+        return render(request, 'account_delete.html', {'form': form})
