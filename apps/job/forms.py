@@ -10,6 +10,8 @@ class JobAddForm(forms.ModelForm):
             "job_name",
             "link",
             "job_description",
+            "company_name",
+            "location",
         ]  # Fields from the model
 
     job_name = forms.CharField(
@@ -41,9 +43,7 @@ class JobAddForm(forms.ModelForm):
         label=_("Company name"),
         max_length=300,
         required=False,
-        widget=forms.TextInput(
-            attrs={"placeholder": _("Enter the name...")}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": _("Enter the name...")}),
     )
 
     location = forms.CharField(
