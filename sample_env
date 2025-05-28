@@ -5,9 +5,3 @@ DB_HOST=localhost
 DB_PORT=5432
 
 SECRET_KEY='django-insecure-M3AoUpvDn_OqB7nuc82_NOG0a8vAQsdUfRSzNlvEMsJp2Gl6zkAksomSYIgJFfQ654Y'
-
-
-
-
-
-
