@@ -1,10 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from apps.watchlist.models import Watchlist
 from apps.application.models import application
-from apps.job.forms import JobAddForm
-from django.http import HttpResponse
 
 
 @login_required
