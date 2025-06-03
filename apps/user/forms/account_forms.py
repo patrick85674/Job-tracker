@@ -1,64 +1,14 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.contrib.auth.password_validation import (
-    password_validators_help_text_html,
-)
 
 
-class UserRegisterForm(UserCreationForm):
-    username = forms.CharField(
-        label="Username",
-        max_length=50,
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Choose a username'
-        })
-    )
-
-    email = forms.EmailField(
-        label="Email",
-        max_length=100,
-        required=True,
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter your email'
-        })
-    )
-
-    password1 = forms.CharField(
-        label="Password",
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Create a password'
-        }),
-        help_text=password_validators_help_text_html()
-    )
-
-    password2 = forms.CharField(
-        label="Confirm Password",
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Confirm your password'
-        })
-    )
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if User.objects.filter(email=email).exists():
-            raise ValidationError(
-                "A user with this email already exists."
-            )
-        return email
-       
-
+# ----------------- Email Change Form -----------------
 class EmailChangeForm(forms.ModelForm):
+    """
+    Allows users to update their email address with confirmation and
+    password verification.
+    """
     email = forms.EmailField(
         label="New Email",
         max_length=100,
@@ -92,10 +42,16 @@ class EmailChangeForm(forms.ModelForm):
         fields = ['email']
 
     def __init__(self, *args, **kwargs):
+        """
+        Pop custom user instance for validation and reuse in clean().
+        """
         self.user = kwargs.pop('instance')
         super().__init__(*args, instance=self.user, **kwargs)
 
     def clean(self):
+        """
+        Validate email match and verify current password.
+        """
         cleaned_data = super().clean()
         email = cleaned_data.get("email")
         confirm_email = cleaned_data.get("confirm_email")
@@ -110,7 +66,12 @@ class EmailChangeForm(forms.ModelForm):
         return cleaned_data
 
 
+# ----------------- Custom Password Change Form -----------------
 class CustomPasswordChangeForm(PasswordChangeForm):
+    """ Custom form that inherits from Django’s PasswordChangeForm and adds
+        placeholder text to the input field, without changing backend logic.
+
+    """
     old_password = forms.CharField(
         label="Current Password",
         strip=False,
@@ -137,7 +98,11 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     )
 
 
+# ----------------- Delete Account Form -----------------
 class DeleteAccountForm(forms.Form):
+    """
+    Simple form for confirming account deletion by password input.
+    """
     password = forms.CharField(
         label="Enter your password to confirm:",
         widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),

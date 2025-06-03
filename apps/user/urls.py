@@ -1,11 +1,6 @@
 from django.urls import path
-from .views import (
-    RegisterView,
-    HomeView,
-    logout_view,
-    AccountPageView,
-    DeleteAccountView,
-)
+from apps.user.views.auth_views import RegisterView, HomeView, logout_view
+from apps.user.views.account_views import AccountPageView, DeleteAccountView
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView

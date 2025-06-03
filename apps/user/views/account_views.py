@@ -1,38 +1,18 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth import login, logout, authenticate
-from django.views.generic import FormView, TemplateView
-from django.urls import reverse_lazy
-from .forms import UserRegisterForm
+from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.views import View
-from .forms import EmailChangeForm, CustomPasswordChangeForm
-from .forms import DeleteAccountForm
+from django.contrib.auth import update_session_auth_hash, authenticate, logout
+from apps.user.forms import EmailChangeForm, CustomPasswordChangeForm
+from apps.user.forms import DeleteAccountForm
 
 
-class RegisterView(FormView):
-    template_name = 'register.html'
-    form_class = UserRegisterForm
-    success_url = reverse_lazy('home')
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return super().form_valid(form)
-       
-   
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = 'home.html'
-
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')
-
-
-# Single page for all account updates
+# ----------------- Account Page View -----------------
 class AccountPageView(LoginRequiredMixin, View):
+    """
+    Handles both email and password changes on a single account page.
+    Uses two separate forms: EmailChangeForm and CustomPasswordChangeForm.
+    """
     def get(self, request):
         email_form = EmailChangeForm(instance=request.user)
         password_form = CustomPasswordChangeForm(user=request.user)
@@ -42,6 +22,7 @@ class AccountPageView(LoginRequiredMixin, View):
         })
     
     def post(self, request):
+        # Handle email update
         if 'email_submit' in request.POST:
             email_form = EmailChangeForm(
                 data=request.POST,
@@ -52,7 +33,8 @@ class AccountPageView(LoginRequiredMixin, View):
                 email_form.save()
                 messages.success(request, "Email updated successfully.")
                 return redirect('account_page')
-
+            
+        # Handle password update
         elif 'password_submit' in request.POST:
             password_form = CustomPasswordChangeForm(
                 user=request.user,
@@ -61,10 +43,12 @@ class AccountPageView(LoginRequiredMixin, View):
             email_form = EmailChangeForm(instance=request.user)
             if password_form.is_valid():
                 user = password_form.save()
+                # Prevents logout after password change
                 update_session_auth_hash(request, user)
                 messages.success(request, "Password updated successfully.")
                 return redirect('account_page')
 
+        # If form is invalid or no recognized submit button was pressed
         else:
             email_form = EmailChangeForm(instance=request.user)
             password_form = CustomPasswordChangeForm(user=request.user)
@@ -80,7 +64,6 @@ class AccountPageView(LoginRequiredMixin, View):
 
 
 # ----------------- Delete Account View -----------------
-
 class DeleteAccountView(LoginRequiredMixin, View):
     def get(self, request):
         form = DeleteAccountForm()
