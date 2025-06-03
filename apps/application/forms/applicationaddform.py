@@ -8,8 +8,8 @@ from apps.application.models.application import Application
 class ApplicationAddForm(forms.ModelForm):
     status = forms.TypedChoiceField(
         required=False,
-        choices=Application.status_type.choices,
-        initial=Application.status_type.DRAFT,
+        choices=Application.StatusType.choices,
+        initial=Application.StatusType.DRAFT,
         label=_("Status"),
         coerce=int,
     )
@@ -38,8 +38,8 @@ class ApplicationAddForm(forms.ModelForm):
     )
     platform = forms.TypedChoiceField(
         required=False,
-        choices=Application.platform_type.choices,
-        initial=Application.platform_type.NONE,
+        choices=Application.PlatformType.choices,
+        initial=Application.PlatformType.NONE,
         label=_("Platform"),
         coerce=int,
     )
