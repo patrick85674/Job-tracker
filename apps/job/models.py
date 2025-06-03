@@ -1,9 +1,9 @@
 from django.db import models
 from django.conf import settings
-
+from apps.common.models.base_models import DateColumns
 
 # Create your models here.
-class Job(models.Model):
+class Job(DateColumns):
     # One user many jobs
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
