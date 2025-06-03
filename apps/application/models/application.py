@@ -10,7 +10,7 @@ class Application(DateColumns):
     # MAX_EMAIL_LENGTH: int = 254  # django default value
     MAX_COMMENT_LENGTH: int = 8192
 
-    class status_type(models.IntegerChoices):
+    class StatusType(models.IntegerChoices):
         DRAFT = 1, _("Draft")
         SUBMITTED = 2, _("Submitted")
         # APPLIED = 2, _("Applied")
@@ -22,7 +22,7 @@ class Application(DateColumns):
         INTERVIEWED = 7, _("Interviewed")
         OFFERED = 8, _("Offered")
 
-    class platform_type(models.IntegerChoices):
+    class PlatformType(models.IntegerChoices):
         NONE = 0, _("None")
         COMPANY_WEBSITE = 1, _("Company website")
         INDEED = 2, "Indeed"
@@ -40,8 +40,14 @@ class Application(DateColumns):
         null=False,
         blank=False,
     )
-    status = models.PositiveIntegerField(default=status_type.DRAFT, null=True,)
-    applied_date = models.DateTimeField(null=True, blank=True,)
+    status = models.PositiveIntegerField(
+        default=StatusType.DRAFT,
+        null=True,
+    )
+    applied_date = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
     contact_name = models.CharField(
         max_length=MAX_CONTACT_NAME_LENGTH,
         null=True,
@@ -60,7 +66,7 @@ class Application(DateColumns):
         db_index=True,
     )
     platform = models.PositiveIntegerField(
-        default=platform_type.NONE,
+        default=PlatformType.NONE,
         null=True,
     )
     comment = models.TextField(
