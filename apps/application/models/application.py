@@ -2,14 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
-
-
-class DateColumns(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
+from apps.common.models.base_models import DateColumns
 
 
 class Application(DateColumns):
@@ -49,11 +42,11 @@ class Application(DateColumns):
     )
     status = models.PositiveIntegerField(
         default=StatusType.DRAFT,
-        null=True
+        null=True,
     )
     applied_date = models.DateTimeField(
         null=True,
-        blank=True
+        blank=True,
     )
     contact_name = models.CharField(
         max_length=MAX_CONTACT_NAME_LENGTH,
