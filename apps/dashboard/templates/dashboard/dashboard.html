@@ -6,6 +6,8 @@
 {% block main %}
   <h1>Welcome, {{ request.user.username }}</h1>
 
+
+  <!-- Watchlist-->
   <div class="job-box">
     <section>
       <h2>Your Jobs</h2>
@@ -37,6 +39,42 @@
 
     </section>
   </div>
+
+  <!-- Application list-->
+  <div class="application-box">
+    <section>
+      <h2>Your Applications</h2>
+
+      <!-- Filter input -->
+      <input type="text" name="q" placeholder="Filter applications..." 
+             hx-get="{% url 'application:application_list_partial' %}" 
+             hx-trigger="keyup changed delay:500ms"
+             hx-target="#application-list"
+             hx-swap="innerHTML"
+             class="filter-input">
+
+      <div id="application-list">
+        {% include "partials/application_list_partial.html" %}
+      </div>
+      
+      <!-- Button to toggle form -->
+      <button 
+        hx-get="{% url 'application:application_add' %}" 
+        hx-target="#application-form-container" 
+        hx-swap="outerHTML"
+        type="button"
+      >
+        + Add Application
+      </button>
+
+      <!-- Form will be dynamically loaded here -->
+      <div id="application-form-container"></div>
+
+    </section>
+  </div>
+
+
+
 {% endblock %}
 
 {% block extra_scripts %}
@@ -48,4 +86,14 @@
     }
   });
 </script>
+
+<script>
+  // Reset and hide form container after successful HTMX request
+  document.body.addEventListener("htmx:afterRequest", function (evt) {
+    if (evt.detail.target.id === "application-form-container") {
+      document.getElementById("application-form-container").innerHTML = "";
+    }
+  });
+</script>
+
 {% endblock %}

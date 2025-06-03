@@ -1,0 +1,15 @@
+<!-- dashboard/partials/watch_list.html -->
+{% for item in application_items %}
+  <div class="application-item">
+    <div class="application-header">
+      <h3>{{ item.job.job_name }}</h3>
+      <a href="{{ item.job.link }}">Job Link</a>
+      <p> {{item.application.status_type}}</p>
+    </div>
+    <p>{{ item.job.job_description }}</p>
+    <small>Added on {{ item.date_added|date:"F j, Y" }}</small>
+  </div>
+{% empty %}
+  <p>No jobs found in your application list.</p>
+{% endfor %}
+

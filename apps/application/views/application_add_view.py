@@ -10,10 +10,11 @@ from apps.application.models.application import Application
 def application_add_view(request):
 
     if request.method == "POST":
+        print("Post request")
         appform = ApplicationAddForm(request.POST)
         jobform = JobAddForm(request.POST)
         if appform.is_valid() and jobform.is_valid():
-
+            print("Form is valid!")
             job = jobform.save(commit=False)
             job.user = request.user
             job.save()
@@ -22,6 +23,7 @@ def application_add_view(request):
             app.user = request.user
             app.job = job
             app.save()
+            print("Application saved!")
 
             context = {}
             context = {"job": job}

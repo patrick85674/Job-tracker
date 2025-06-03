@@ -26,16 +26,11 @@ def watchlist_partial(request):
     )
 
 
-
 @login_required
 def add_job_to_watchlist(request):
     if request.method == "GET":
         form = JobAddForm()
         return render(request, "job/add_job_form.html", {"form": form})
-
-    # if request.method == "GET":
-    #     # Return simple HTML instead of the form for testing HTMX swap
-    #     return HttpResponse("<div><p>Test form content loaded!</p></div>")
 
     if request.method == "POST":
         form = JobAddForm(request.POST)
@@ -56,5 +51,5 @@ def add_job_to_watchlist(request):
                 {"watchlist_items": watchlist_items},
             )
         else:
-            # ❗ This is the fix:
+            
             return render(request, "job/add_job_form.html", {"form": form})
