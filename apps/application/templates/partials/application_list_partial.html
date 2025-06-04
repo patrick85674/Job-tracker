@@ -2,10 +2,14 @@
 {% for item in application_items %}
 <div class="application-item">
     <div class="application-header">
-        <a href="{% url 'application:application_edit' item.job.id%}">
-            <h3>{{ item.job.job_name }}</h3>
+        {% if item.id %}
+        <a href="{% url 'application:application_edit' item.id%}">
+            <h3>{{ item.job.job_name }} </h3>
         </a>
-        
+        {% else %}
+        <h3>{{ item.job.job_name }} </h3>
+        {% endif %}
+
         <a href="{{ item.job.link }}">Job Link</a>
         <p> {{item.application.status_type}}</p>
     </div>
