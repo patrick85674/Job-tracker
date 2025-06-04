@@ -2,7 +2,10 @@
 {% for item in application_items %}
 <div class="application-item">
     <div class="application-header">
-        <h3>{{ item.job.job_name }}</h3>
+        <a href="{% url 'application:application_edit' item.job.id%}">
+            <h3>{{ item.job.job_name }}</h3>
+        </a>
+        
         <a href="{{ item.job.link }}">Job Link</a>
         <p> {{item.application.status_type}}</p>
     </div>
