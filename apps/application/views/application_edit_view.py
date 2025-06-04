@@ -25,7 +25,7 @@ def application_edit_view(request, id):
 
             context = {}
 
-            return render(request, "application_edited.html", context)
+            return redirect('dashboard:home')
     else:
         appform = ApplicationAddForm(None, instance=application)
         jobform = JobAddForm(None, instance=application.job)

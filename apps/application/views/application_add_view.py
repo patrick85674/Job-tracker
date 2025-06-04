@@ -10,10 +10,11 @@ from apps.application.models.application import Application
 def application_add_view(request):
 
     if request.method == "POST":
+
         appform = ApplicationAddForm(request.POST)
         jobform = JobAddForm(request.POST)
-        if appform.is_valid() and jobform.is_valid():
 
+        if appform.is_valid() and jobform.is_valid():
             job = jobform.save(commit=False)
             job.user = request.user
             job.save()
@@ -26,8 +27,16 @@ def application_add_view(request):
             context = {}
             context = {"job": job}
             context = {"application": app}
-            return render(request, "application_added.html", context)
 
+            # Return updated Application list partial so HTMX can update the page
+            application_items = Application.objects.filter(
+                user=request.user
+            ).select_related("job")
+            return render(
+                request,
+                "partials/application_list_partial.html",
+                {"application_items": application_items},
+            )
     else:
         jobform = JobAddForm()
         appform = ApplicationAddForm()
