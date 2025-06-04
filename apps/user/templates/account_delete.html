@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+
+{% block title %}Delete Account{% endblock %}
+
+{% block main %}
+  <h2>Delete Your Account</h2>
+
+  <p style="color: rgb(156, 3, 3);">
+    Warning: This action is permanent and cannot be undone.
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <label for="{{ form.password.id_for_label }}">Enter your password to confirm:</label><br>
+    {{ form.password }}<br>
+
+    {% if form.password.errors %}
+      <ul style="color: red;">
+        {% for error in form.password.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <br>
+    <button type="submit">
+      Yes, delete my account
+    </button>
+    <a href="{% url 'account_page' %}">Cancel</a>
+  </form>
+{% endblock %}
+

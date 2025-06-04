@@ -7,7 +7,12 @@ from django.contrib.auth.password_validation import (
 )
 
 
+# ----------------- Registration Form -----------------
 class UserRegisterForm(UserCreationForm):
+    """
+    Custom user registration form extending Django's UserCreationForm.
+    Adds email field with uniqueness check and Bootstrap styling.
+    """
     username = forms.CharField(
         label="Username",
         max_length=50,
@@ -50,6 +55,9 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
     def clean_email(self):
+        """
+        Ensure the email is unique across all users.
+        """
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
             raise ValidationError(
