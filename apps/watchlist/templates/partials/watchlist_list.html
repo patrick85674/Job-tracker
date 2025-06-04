@@ -1,14 +1,20 @@
-<!-- dashboard/partials/watch_list.html -->
-{% for item in watchlist_items %}
-  <div class="job-item">
-    <div class="job-header">
-      <h3>{{ item.job.job_name }}</h3>
-      <a href="{{ item.job.link }}">Job Link</a>
-    </div>
-    <p>{{ item.job.job_description }}</p>
-    <small>Added on {{ item.date_added|date:"F j, Y" }}</small>
-  </div>
-{% empty %}
-  <p>No jobs found in your watchlist.</p>
-{% endfor %}
 
+<div class="watchlist">
+  {% for item in watchlist_items %}
+  <div class="job-item">
+    <div class="job-left">
+      <h3>{{ item.job.job_name }}</h3>
+      {% if item.job.link %}
+      <a href="{{ item.job.link }}" class="job-link" target="_blank"
+        rel="noopener noreferrer">Job Link</a>
+      {% endif %}
+    </div>
+    <div class="job-right">
+      <p>{{ item.job.job_description }}</p>
+      <small>Added on {{ item.date_added|date:"F j, Y" }}</small>
+    </div>
+  </div>
+  {% empty %}
+  <p>No jobs found in your watchlist.</p>
+  {% endfor %}
+</div>
