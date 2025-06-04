@@ -1,21 +1,69 @@
-<!-- dashboard/partials/application_list_partial.html -->
-{% for item in application_items %}
-<div class="application-item">
-    <div class="application-header">
-        {% if item.id %}
-        <a href="{% url 'application:application_edit' item.id%}">
-            <h3>{{ item.job.job_name }} </h3>
+<style>
+    .application-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    .application-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border: 1px solid #ddd;
+      padding: 16px;
+      border-radius: 4px;
+      background: #f9f9f9;
+    }
+  
+    .application-left {
+      flex: 1 1 40%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+  
+    .application-left h3 {
+      margin: 0;
+    }
+  
+    .application-left a.job-link {
+      font-size: 0.9em;
+      color: #007bff;
+      text-decoration: underline;
+    }
+  
+    .application-right {
+      flex: 1 1 55%;
+      padding-left: 20px;
+    }
+  
+    .application-right p,
+    .application-right small {
+      margin: 4px 0;
+    }
+  </style>
+  
+  <div class="application-list">
+    {% for item in application_items %}
+    <div class="application-item">
+      <div class="application-left">
+        <a href="{% url 'application:application_edit' item.id %}">
+          <h3>{{ item.job.job_name }}</h3>
         </a>
-        {% else %}
-        <h3>{{ item.job.job_name }} </h3>
+        {% if item.job.link %}
+        <a href="{{ item.job.link }}" class="job-link" target="_blank" rel="noopener noreferrer">
+          Job Link
+        </a>
         {% endif %}
-
-        <a href="{{ item.job.link }}">Job Link</a>
-        <p> {{item.application.status_type}}</p>
+      </div>
+      <div class="application-right">
+        <p>Status: {{ item.get_status_display }}</p>
+        <p>{{ item.job.job_description }}</p>
+        <small>Added on {{ item.created_at|date:"F j, Y" }}</small>
+      </div>
     </div>
-    <p>{{ item.job.job_description }}</p>
-    <small>Added on {{ item.date_added|date:"F j, Y" }}</small>
-</div>
-{% empty %}
-<p>No jobs found in your application list.</p>
-{% endfor %}
+    {% empty %}
+    <p>No jobs found in your application list.</p>
+    {% endfor %}
+  </div>
+  
