@@ -19,17 +19,15 @@
         <small>Added on {{ item.created_at|date:"F j, Y" }}</small>
     </div>
     <div>
-
+        <!-- Delete button -->
         <form
             hx-post="{% url 'application:application_partial_remove' item.id  %}"
             method="POST"
             hx-target="#application-list"
             hx-swap="innerHTML"
             class="filter-input">
-
             {% csrf_token %}
             <input type="submit" value="Delete">
-
         </form>
     </div>
 </div>
