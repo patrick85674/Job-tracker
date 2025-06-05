@@ -20,7 +20,8 @@
           method="POST"
           hx-target="#watch-list"
           hx-swap="innerHTML"
-          class="filter-input">
+          class="filter-input"
+          hx-confirm="Are you sure you want to delete this application?">
           {% csrf_token %}
           <input type="submit" value="Delete">
       </form>
