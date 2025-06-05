@@ -1,0 +1,90 @@
+{% extends "main.html" %}
+
+{% block title %}Account Page{% endblock %}
+
+{% block main %}
+  <h2>Hello, {{ request.user.username }}!</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div style="color: green;">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <fieldset>
+      <legend><h3>Change Email</h3></legend>
+      {{ email_form.non_field_errors }}
+      <p>Current email: {{ user.email }}</p>
+
+      <label for="{{ email_form.email.id_for_label }}">{{ email_form.email.label }}</label><br>
+      {{ email_form.email }}
+      {% for error in email_form.email.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+      <br><br>
+
+      <label for="{{ email_form.confirm_email.id_for_label }}">{{ email_form.confirm_email.label }}</label><br>
+      {{ email_form.confirm_email }}
+      {% for error in email_form.confirm_email.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+      <br><br>
+
+      <label for="{{ email_form.password.id_for_label }}">{{ email_form.password.label }}</label><br>
+      {{ email_form.password }}
+      {% for error in email_form.password.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+      <br><br>
+
+      <button type="submit" name="email_submit">Update Email</button>
+    </fieldset>
+  </form>
+
+  <hr>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <fieldset>
+      <legend><h3>Change Password</h3></legend>
+      {{ password_form.non_field_errors }}
+
+      <label for="{{ password_form.new_password1.id_for_label }}">{{ password_form.new_password1.label }}</label><br>
+      {{ password_form.new_password1 }}
+      {% for error in password_form.new_password1.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+      <br><br>
+
+      <label for="{{ password_form.new_password2.id_for_label }}">{{ password_form.new_password2.label }}</label><br>
+      {{ password_form.new_password2 }}
+      {% for error in password_form.new_password2.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+      <br><br>
+
+      <label for="{{ password_form.old_password.id_for_label }}">{{ password_form.old_password.label }}</label><br>
+      {{ password_form.old_password }}
+      {% for error in password_form.old_password.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+      <br><br>
+
+      <button type="submit" name="password_submit">Change Password</button>
+    </fieldset>
+  </form>
+
+  <hr>
+
+  <h3>Delete Account</h3>
+  <form method="post" action="{% url 'account_delete' %}">
+    {% csrf_token %}
+    <button type="submit">Delete Account</button>
+  </form>
+{% endblock %}
+
+
