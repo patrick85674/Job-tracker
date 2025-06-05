@@ -33,6 +33,7 @@ CUSTOM_APPS = [
     "apps.job",
     "apps.application",
     "apps.watchlist",
+    "apps.homepage",
 ]
 
 THIRD_PARTY_APPS = []
