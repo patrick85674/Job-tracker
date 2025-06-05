@@ -16,7 +16,7 @@
     <div class="application-right">
         <p>Status: {{ item.get_status_display }}</p>
         <p>{{ item.job.job_description }}</p>
-        <small>Added on {{ item.created_at|date:"F j, Y" }}</small>
+        <small>Last updated {{ item.updated_at|date:"F j, Y, H:i:s" }}</small>
     </div>
     <div>
         <!-- Delete button -->
