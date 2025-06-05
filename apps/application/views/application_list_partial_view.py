@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from apps.application.models import application
+from apps.application.models.application import Application
 
 
 @login_required
 def application_list_partial(request):
     query = request.GET.get("q", "").strip()
-    application_items = application.objects.filter(
+    application_items = Application.objects.filter(
         user=request.user
     ).select_related("job")
 

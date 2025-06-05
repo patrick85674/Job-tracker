@@ -40,16 +40,19 @@ def add_job_to_watchlist(request):
             job.save()
 
             Watchlist.objects.create(user=request.user, job=job)
-
-            # Return updated watchlist partial so HTMX can update the page
-            watchlist_items = Watchlist.objects.filter(
-                user=request.user
-            ).select_related("job")
-            return render(
-                request,
-                "partials/watchlist_list.html",
-                {"watchlist_items": watchlist_items},
-            )
+            return current_watchlist(request)
+          
         else:
-            
+
             return render(request, "job/add_job_form.html", {"form": form})
+
+
+def current_watchlist(request):
+    watchlist_items = Watchlist.objects.filter(
+        user=request.user
+    ).select_related("job")
+    return render(
+        request,
+        "partials/watchlist_list.html",
+        {"watchlist_items": watchlist_items},
+    )
