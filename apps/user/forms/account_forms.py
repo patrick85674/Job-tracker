@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 # ----------------- Email Change Form -----------------
@@ -10,31 +11,31 @@ class EmailChangeForm(forms.ModelForm):
     password verification.
     """
     email = forms.EmailField(
-        label="New Email",
+        label=_("New Email Address"),
         max_length=100,
         required=True,
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter new email'
+            'placeholder': _("Enter new email address"),
         })
     )
     confirm_email = forms.EmailField(
-        label="Confirm New Email",
+        label=_("Confirm New Email Address"),
         max_length=100,
         required=True,
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Confirm new email'
+            'placeholder': _("Confirm new email address"),
         })
     )
     password = forms.CharField(
-        label="Current Password",
+        label=_("Current Password"),
         strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter current password'
+            'placeholder': _("Enter current password"),
         }),
-        help_text="Enter your current password to confirm the change."
+        help_text=_("Enter your current password to confirm the change.")
     )
 
     class Meta:
@@ -58,10 +59,10 @@ class EmailChangeForm(forms.ModelForm):
         password = cleaned_data.get("password")
 
         if email and confirm_email and email != confirm_email:
-            self.add_error("confirm_email", "Emails do not match.")
+            self.add_error("confirm_email", _("Emails do not match."))
 
         if password and not self.user.check_password(password):
-            self.add_error("password", "Incorrect current password.")
+            self.add_error("password", _("Incorrect current password."))
 
         return cleaned_data
 
@@ -73,27 +74,27 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
     """
     old_password = forms.CharField(
-        label="Current Password",
+        label=_("Current Password"),
         strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter current password'
+            'placeholder': _("Enter current password"),
         })
     )
     new_password1 = forms.CharField(
-        label="New Password",
+        label=_("New Password"),
         strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter new password'
+            'placeholder': _("Enter new password"),
         })
     )
     new_password2 = forms.CharField(
-        label="Confirm New Password",
+        label=_("Confirm New Password"),
         strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Confirm new password'
+            'placeholder': _("Confirm new password"),
         })
     )
 
@@ -104,6 +105,6 @@ class DeleteAccountForm(forms.Form):
     Simple form for confirming account deletion by password input.
     """
     password = forms.CharField(
-        label="Enter your password to confirm:",
+        label=_("Enter your password to confirm:"),
         widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
     )

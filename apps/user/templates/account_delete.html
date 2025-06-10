@@ -1,12 +1,13 @@
 {% extends "main.html" %}
+{% load i18n %}
 
-{% block title %}Delete Account{% endblock %}
+{% block title %}{% translate "Delete Account" %}{% endblock %}
 
 {% block main %}
-  <h2>Delete Your Account</h2>
+  <h2>{% translate "Delete Your Account" %}</h2>
 
   <p style="color: rgb(156, 3, 3);">
-    Warning: This action is permanent and cannot be undone.
+  {% translate "Warning: This action is permanent and cannot be undone." %}
   </p>
 
   <form method="post">
@@ -14,7 +15,7 @@
 
     {{ form.non_field_errors }}
 
-    <label for="{{ form.password.id_for_label }}">Enter your password to confirm:</label><br>
+    <label for="{{ form.password.id_for_label }}">{% translate "Enter your password to confirm:" %}</label><br>
     {{ form.password }}<br>
 
     {% if form.password.errors %}
@@ -27,9 +28,9 @@
 
     <br>
     <button type="submit">
-      Yes, delete my account
+    {% translate "Yes, delete my account" %}
     </button>
-    <a href="{% url 'account_page' %}">Cancel</a>
+    <a href="{% url 'account_page' %}">{% translate "Cancel" %}</a>
   </form>
 {% endblock %}
 
