@@ -15,6 +15,7 @@
     </div>
     <div>
       <!-- Delete button -->
+       
       <form
           hx-post="{% url 'watchlist:watchlist_partial_remove' item.id  %}"
           method="POST"
