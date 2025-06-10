@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import (
     password_validators_help_text_html,
 )
+from django.utils.translation import gettext_lazy as _
 
 
 # ----------------- Registration Form -----------------
@@ -14,39 +15,39 @@ class UserRegisterForm(UserCreationForm):
     Adds email field with uniqueness check and Bootstrap styling.
     """
     username = forms.CharField(
-        label="Username",
+        label=_("Username"),
         max_length=50,
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Choose a username'
+            'placeholder': _("Choose a username"),
         })
     )
 
     email = forms.EmailField(
-        label="Email",
+        label=_("Email"),
         max_length=100,
         required=True,
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter your email'
+            'placeholder': _("Enter your email"),
         })
     )
 
     password1 = forms.CharField(
-        label="Password",
+        label=_("Password"),
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Create a password'
+            'placeholder': _("Create a password")
         }),
         help_text=password_validators_help_text_html()
     )
 
     password2 = forms.CharField(
-        label="Confirm Password",
+        label=_("Confirm Password"),
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Confirm your password'
+            'placeholder': _("Confirm your password"),
         })
     )
 
@@ -61,6 +62,6 @@ class UserRegisterForm(UserCreationForm):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
             raise ValidationError(
-                "A user with this email already exists."
+                _("A user with this email address already exists.")
             )
         return email

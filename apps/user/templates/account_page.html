@@ -1,9 +1,10 @@
 {% extends "main.html" %}
+{% load i18n %}
 
-{% block title %}Account Page{% endblock %}
+{% block title %}{% translate "Account Page" %}{% endblock %}
 
 {% block main %}
-  <h2>Hello, {{ request.user.username }}!</h2>
+  <h2>{% blocktrans with username=request.user.username %}Hello, {{ username }}!{% endblocktrans %}</h2>
 
   {% if messages %}
     {% for message in messages %}
@@ -40,7 +41,7 @@
       {% endfor %}
       <br><br>
 
-      <button type="submit" name="email_submit">Update Email</button>
+      <button type="submit" name="email_submit">{% translate "Update Email" %}</button>
     </fieldset>
   </form>
 
@@ -50,7 +51,7 @@
     {% csrf_token %}
 
     <fieldset>
-      <legend><h3>Change Password</h3></legend>
+      <legend><h3>{% translate "Change Password" %}</h3></legend>
       {{ password_form.non_field_errors }}
 
       <label for="{{ password_form.new_password1.id_for_label }}">{{ password_form.new_password1.label }}</label><br>
@@ -74,16 +75,16 @@
       {% endfor %}
       <br><br>
 
-      <button type="submit" name="password_submit">Change Password</button>
+      <button type="submit" name="password_submit">{% translate "Change Password" %}</button>
     </fieldset>
   </form>
 
   <hr>
 
-  <h3>Delete Account</h3>
+  <h3>{% translate "Delete Account" %}</h3>
   <form method="post" action="{% url 'account_delete' %}">
     {% csrf_token %}
-    <button type="submit">Delete Account</button>
+    <button type="submit">{% translate "Delete Account" %}</button>
   </form>
 {% endblock %}
 
