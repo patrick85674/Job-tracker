@@ -1,10 +1,11 @@
 {% extends "main.html" %}
+{% load i18n %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{% translate "Home" %}{% endblock %}
 
 {% block main %}
-  <h2>Welcome to Job Tracker</h2>
-  <p>You are logged in as {{ request.user.username }}.</p>
-  <p><a href="{% url 'logout' %}">Log out</a></p>
+  <h2>{% translate "Welcome to Job Tracker" %}</h2>
+  <p>{% blocktrans with username=request.user.username %}You are logged in as {{ username }}.{% endblocktrans %}</p>
+  <p><a href="{% url 'logout' %}">{% translate "Log out" %}</a></p>
 {% endblock %}
 
