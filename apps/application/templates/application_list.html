@@ -3,46 +3,85 @@
 {% block main %}
 
 <h3>{% translate "Applications:" %}</h3>
+
 <div>
+    <form method="get" class="filter-form">
+        <label>Status:
+            <select name="status">
+                <option value="">All</option>
+                {% for key, value in status_choices %}
+                    <option value="{{ key }}" {% if filters.status == key|stringformat:"s" %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>Job name:
+            <input type="text" name="jobname" value="{{ filters.jobname }}">
+        </label>
+
+        <label>Date from:
+            <input type="date" name="date_from" value="{{ filters.date_from }}">
+        </label>
+
+        <label>Date to:
+            <input type="date" name="date_to" value="{{ filters.date_to }}">
+        </label>
+
+        <label>Sort by:
+            <select name="sort">
+                <option value="">Default</option>
+                <option value="status" {% if filters.sort == "status" %}selected{% endif %}>Status</option>
+                <option value="created_at" {% if filters.sort == "created_at" %}selected{% endif %}>Created Date</option>
+                <option value="job__job_name" {% if filters.sort == "job__job_name" %}selected{% endif %}>Job Name</option>
+                <option value="job__company_name" {% if filters.sort == "job__company_name" %}selected{% endif %}>Company Name</option>
+            </select>
+        </label>
+
+        <button type="submit">Apply</button>
+
+        <a href="{% url 'application:generate_report' %}?{{ request.GET.urlencode }}">
+            Generate Report
+        </a>
+    </form>
 
     {% for application in page_obj.object_list %}
-    <h2>{{ application.job.job_name }}</h2>
-    <p>{{ application.get_status_display }}</p>
-{% empty %}
-    <p>{% translate "No application available." %}</p>
-{% endfor %}
+        <h2>{{ application.job.job_name }}</h2>
+        <p>{{ application.get_status_display }}</p>
+    {% empty %}
+        <p>{% translate "No application available." %}</p>
+    {% endfor %}
 
-<div class="pagination">
-    <span class="page-info">
-        Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}
-    </span>
+    <div class="pagination">
+        <span class="page-info">
+            Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}
+        </span>
 
-    <ul class="pagination-list">
-        {% if page_obj.has_previous %}
-            <li><a href="?page=1">{% translate "&laquo; First" %}</a></li>
-            <li><a href="?page={{ page_obj.previous_page_number }}">{% translate "‹ Back" %}</a></li>
-        {% else %}
-            <li class="disabled">{% translate "&laquo; First" %}</li>
-            <li class="disabled">{% translate "‹ Back" %}</li>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if num == page_obj.number %}
-                <li class="active">{{ num }}</li>
-            {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-                <li><a href="?page={{ num }}">{{ num }}</a></li>
+        <ul class="pagination-list">
+            {% if page_obj.has_previous %}
+                <li><a href="?page=1&{{ request.GET.urlencode|urlencode }}">{% translate "&laquo; First" %}</a></li>
+                <li><a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode|urlencode }}">{% translate "‹ Back" %}</a></li>
+            {% else %}
+                <li class="disabled">{% translate "&laquo; First" %}</li>
+                <li class="disabled">{% translate "‹ Back" %}</li>
             {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}">{% translate "Next ›" %}</a></li>
-            <li><a href="?page={{ page_obj.paginator.num_pages }}">{% translate "Last &raquo;" %}</a></li>
-        {% else %}
-            <li class="disabled">{% translate "Next ›" %}</li>
-            <li class="disabled">{% translate "Last &raquo;" %}</li>
-        {% endif %}
-    </ul>
-</div>
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                    <li class="active">{{ num }}</li>
+                {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+                    <li><a href="?page={{ num }}&{{ request.GET.urlencode|urlencode }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode|urlencode }}">{% translate "Next ›" %}</a></li>
+                <li><a href="?page={{ page_obj.paginator.num_pages }}&{{ request.GET.urlencode|urlencode }}">{% translate "Last &raquo;" %}</a></li>
+            {% else %}
+                <li class="disabled">{% translate "Next ›" %}</li>
+                <li class="disabled">{% translate "Last &raquo;" %}</li>
+            {% endif %}
+        </ul>
+    </div>
 </div>
 
 {% endblock %}
