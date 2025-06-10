@@ -13,4 +13,9 @@ urlpatterns = [
         views.partial_remove_view,
         name="watchlist_partial_remove",
     ),
+    path(
+        "watchlist_edit/<int:id>",
+        views.watchlist_edit_view,
+        name="watchlist_edit",
+    ),
 ]

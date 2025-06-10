@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from apps.common.models.base_models import DateColumns
 
+
 # Create your models here.
 class Job(DateColumns):
     # One user many jobs
@@ -15,7 +16,6 @@ class Job(DateColumns):
         null=True,
         blank=True,
     )
-    created_at = models.DateTimeField(auto_now=True)
     job_description = models.TextField(
         max_length=2000,
         null=True,

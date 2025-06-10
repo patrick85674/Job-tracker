@@ -8,7 +8,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 
 
-
 @login_required
 def watchlist_partial(request):
     query = request.GET.get("q", "").strip()
@@ -44,7 +43,7 @@ def add_job_to_watchlist(request):
 
             Watchlist.objects.create(user=request.user, job=job)
             return current_watchlist(request)
-          
+
         else:
 
             return render(request, "job/add_job_form.html", {"form": form})
@@ -76,9 +75,36 @@ def watchlist_remove_view(request, id):
 
 # from django.shortcuts import render, redirect, get_object_or_404
 
+
 @login_required
 def partial_remove_view(request, id):
     # Deletes item in the watchlist
     watchlist_remove_view(request, id)
     # Update partial list
     return watchlist_partial(request)
+
+
+@login_required
+def watchlist_edit_view(request, id):
+    watchlist_entry = get_object_or_404(Watchlist, id=id)
+    if watchlist_entry.user != request.user:
+        return HttpResponseForbidden(
+            _("No permission to change this watchlist entry!")
+        )
+
+    if request.method == "POST":
+        jobform = JobAddForm(request.POST, instance=watchlist_entry.job)
+
+        if jobform.is_valid():
+            jobform.save()
+
+            context = {}
+
+            return redirect("dashboard:home")
+    else:
+        jobform = JobAddForm(None, instance=watchlist_entry.job)
+
+    context = {}
+    context["jobform"] = jobform
+
+    return render(request, "application_edit.html", context)
