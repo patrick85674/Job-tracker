@@ -10873,6 +10873,11 @@ header.masthead:before {
   left: 0;
   opacity: 0.5;
 }
+
+header.masthead::before {
+  display: none !important;
+}
+
 header.masthead h1, header.masthead .h1 {
   font-size: 2rem;
 }
@@ -10882,18 +10887,23 @@ header.masthead h1, header.masthead .h1 {
     padding-bottom: 12rem;
   }
   header.masthead h1, header.masthead .h1 {
-    font-size: 3rem;
+    font-size: 5rem;
   }
 }
 
 .showcase .showcase-text {
   padding: 3rem;
 }
-.showcase .showcase-img {
-  min-height: 30rem;
-  background-size: cover;
+
+.showcase-img {
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center;
+  max-height: 600px;
 }
-@media (min-width: 768px) {
+
+
+@media (min-width: 500px) {
   .showcase .showcase-text {
     padding: 7rem;
   }
@@ -10914,7 +10924,7 @@ header.masthead h1, header.masthead .h1 {
 .call-to-action {
   position: relative;
   background-color: #343a40;
-  background: url("../assets/img/bg-masthead.jpg") no-repeat center center;
+  background: url("../assets/img/yb.jpg") no-repeat center center;
   background-size: cover;
   padding-top: 7rem;
   padding-bottom: 7rem;
