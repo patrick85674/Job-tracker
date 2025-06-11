@@ -66,8 +66,8 @@ def application_report_view(request):
         (
             app.job.job_name,
             app.job.company_name,
-            app.status,
-            app.applied_date.strftime("%Y-%m-%d")
+            _(app.get_status_display()),
+            app.applied_date.strftime("%d %B %Y")
             if app.applied_date else "",
         )
         for app in queryset

@@ -19,7 +19,7 @@
                     <td>{{ app.job.company_name }}</td>
                     <td>{{ app.get_status_display }}</td>
                     <td>
-                        {{ app.applied_date|date:"d-m-Y" }}
+                        {{ app.applied_date|date:"d F Y" }}
                     </td>
                 </tr>
             {% endfor %}
