@@ -7,6 +7,9 @@ from apps.application.views.application_home_view import application_home_view
 from apps.application.views.application_remove_view import (
     application_remove_view
 )
+from apps.application.views.report_view import application_report_view
+
+app_name = "application"  # Enables {% url 'application:application_report' %}
 
 
 urlpatterns = [
@@ -17,4 +20,9 @@ urlpatterns = [
          application_remove_view, name="application_remove"),
     path("application_edit/<int:id>",
          application_edit_view, name="application_edit"),
+    path(
+        "application/report/",
+        application_report_view,
+        name="application_report",
+    ),
 ]

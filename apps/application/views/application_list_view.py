@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Value
-from django.db.models.functions import Lower, Replace
 from django.shortcuts import render
 
+from django.db.models import Value  # still needed for other cases
+
 from apps.application.models.application import Application
+from apps.application.utils.filters import normalize_text
+from apps.application.utils.filters import normalize_jobname_expression
 
 NUMBER_OF_LISTED_APPLICATIONS = 25
 
@@ -37,16 +39,9 @@ def application_list_view(request):
         - replacing hyphens and en-dashes with spaces
         This ensures "backend", "back-end", and "back end" all match each other
         """
-        normalized_input = (
-            jobname.lower()
-            .replace("-", " ")
-            .replace("–", " ")
-        )
+        normalized_input = normalize_text(jobname)
         queryset = queryset.annotate(
-            normalized_jobname=Replace(
-                Replace(Lower("job__job_name"), Value("-"), Value(" ")),
-                Value("–"), Value(" "),
-            )
+            normalized_jobname=normalize_jobname_expression("job__job_name")
         ).filter(normalized_jobname__icontains=normalized_input)
 
     # Filter by application date range

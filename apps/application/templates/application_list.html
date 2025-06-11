@@ -6,54 +6,72 @@
 
 <div>
     <form method="get" class="filter-form">
-        <label>Status:
+        <label>{% translate "Status" %}:
             <select name="status">
-                <option value="">All</option>
+                <option value="">{% translate "All" %}</option>
                 {% for key, value in status_choices %}
                     <option value="{{ key }}" {% if filters.status == key|stringformat:"s" %}selected{% endif %}>{{ value }}</option>
                 {% endfor %}
             </select>
         </label>
 
-        <label>Job name:
+        <label>{% translate "Job name" %}:
             <input type="text" name="jobname" value="{{ filters.jobname }}">
         </label>
 
-        <label>Date from:
+        <label>{% translate "Date from" %}:
             <input type="date" name="date_from" value="{{ filters.date_from }}">
         </label>
 
-        <label>Date to:
+        <label>{% translate "Date to" %}:
             <input type="date" name="date_to" value="{{ filters.date_to }}">
         </label>
 
-        <label>Sort by:
+        <label>{% translate "Sort by" %}:
             <select name="sort">
-                <option value="">Default</option>
-                <option value="status" {% if filters.sort == "status" %}selected{% endif %}>Status</option>
-                <option value="created_at" {% if filters.sort == "created_at" %}selected{% endif %}>Created Date</option>
-                <option value="job__job_name" {% if filters.sort == "job__job_name" %}selected{% endif %}>Job Name</option>
-                <option value="job__company_name" {% if filters.sort == "job__company_name" %}selected{% endif %}>Company Name</option>
+                <option value="">{% translate "Default" %}</option>
+                <option value="status" {% if filters.sort == "status" %}selected{% endif %}>{% translate "Status" %}</option>
+                <option value="created_at" {% if filters.sort == "created_at" %}selected{% endif %}>{% translate "Created Date" %}</option>
+                <option value="job__job_name" {% if filters.sort == "job__job_name" %}selected{% endif %}>{% translate "Job Name" %}</option>
+                <option value="job__company_name" {% if filters.sort == "job__company_name" %}selected{% endif %}>{% translate "Company Name" %}</option>
             </select>
         </label>
 
-        <button type="submit">Apply</button>
-
-        <a href="{% url 'application:generate_report' %}?{{ request.GET.urlencode }}">
-            Generate Report
-        </a>
+        <button type="submit">{% translate "Apply" %}</button>
     </form>
 
+    <!-- Top report buttons -->
+    <div class="report-buttons">
+        <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=pdf">
+            {% translate "Download PDF" %}
+        </a>
+        <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=xlsx">
+            {% translate "Download XLSX" %}
+        </a>
+    </div>
+
     {% for application in page_obj.object_list %}
-        <h2>{{ application.job.job_name }}</h2>
-        <p>{{ application.get_status_display }}</p>
+        <div class="application-card">
+            <h2>{{ application.job.job_name }}</h2>
+            <p>{{ application.get_status_display }}</p>
+        </div>
     {% empty %}
         <p>{% translate "No application available." %}</p>
     {% endfor %}
 
+    <!-- Bottom report buttons -->
+    <div class="report-buttons">
+        <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=pdf">
+            {% translate "Download PDF" %}
+        </a>
+        <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=xlsx">
+            {% translate "Download XLSX" %}
+        </a>
+    </div>
+
     <div class="pagination">
         <span class="page-info">
-            Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}
+            {% translate "Page" %} {{ page_obj.number }} {% translate "of" %} {{ page_obj.paginator.num_pages }}
         </span>
 
         <ul class="pagination-list">

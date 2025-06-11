@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% load i18n %}
+
+{% block main %}
+    <h1>{% trans "Application Report" %}</h1>
+
+    <table border="1" cellspacing="10" cellpadding="5">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                    <th>{% trans column %}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+                <tr>
+                    <td>{{ app.job.job_name }}</td>
+                    <td>{{ app.job.company_name }}</td>
+                    <td>{{ app.get_status_display }}</td>
+                    <td>
+                        {{ app.applied_date|date:"d-m-Y" }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
