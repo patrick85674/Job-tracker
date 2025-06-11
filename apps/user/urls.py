@@ -1,11 +1,10 @@
 from django.urls import path
-from .views import (
-    RegisterView,
-    HomeView,
-    logout_view,
-)
+from apps.user.views.auth_views import RegisterView, HomeView, logout_view
+from apps.user.views.account_views import AccountPageView, DeleteAccountView
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path("login/", LoginView.as_view(template_name='login.html'), name="login"),
@@ -34,4 +33,17 @@ urlpatterns = [
              template_name="password_reset_complete.html"
          ),
          name="password_reset_complete"),
+
+    # Account page URLs
+    path("account/", AccountPageView.as_view(), name="account_page"),
+    path("account/delete/", DeleteAccountView.as_view(),
+         name="account_delete"),
+    path(
+        "account/deleted/",
+        TemplateView.as_view(
+            template_name="account_deleted_confirmation.html"
+        ),
+        name="account_deleted",
+    ),
+
 ]

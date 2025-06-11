@@ -13,12 +13,12 @@ app_name = "application"  # Enables {% url 'application:application_report' %}
 
 
 urlpatterns = [
-    path("", application_home_view, name="application_home"),
-    path("application_list/", application_list_view, name="application_list"),
-    path("application_add/", application_add_view, name="application_add"),
-    path("application_remove/<int:id>",
+    path('', application_home_view, name="application_home"),
+    path("list/", application_list_view, name="application_list"),
+    path("add/", application_add_view, name="application_add"),
+    path("remove/<int:id>",
          application_remove_view, name="application_remove"),
-    path("application_edit/<int:id>",
+    path("edit/<int:id>",
          application_edit_view, name="application_edit"),
     path(
         "application/report/",

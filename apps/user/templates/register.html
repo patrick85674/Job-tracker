@@ -1,9 +1,10 @@
 {% extends "main.html" %}
+{% load i18n %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{% translate "Register" %}{% endblock %}
 
 {% block main %}
-  <h2>Register</h2>
+  <h2>{% translate "Register" %}</h2>
 
   {% if messages %}
     {% for message in messages %}
@@ -29,10 +30,10 @@
       <br>
     {% endfor %}
 
-    <button type="submit">Register</button>
+    <button type="submit">{% translate "Register" %}</button>
   </form>
-
-  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% url 'login' as login_url %}
+  <p>{% blocktrans with login_url=login_url %}Already have an account?" <a href="{{ login_url }}">Login</a>{% endblocktrans %}</p>
 {% endblock %}
 
 
