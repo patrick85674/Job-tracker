@@ -41,6 +41,7 @@ class Application(DateColumns):
         blank=False,
     )
     status = models.PositiveIntegerField(
+        choices=StatusType.choices,
         default=StatusType.DRAFT,
         null=True,
     )

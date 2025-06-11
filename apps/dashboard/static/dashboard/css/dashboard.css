@@ -2,7 +2,7 @@
 .watchlist {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 20px;
 }
 
 .application-item,
@@ -13,7 +13,7 @@
   border: 1px solid #ddd;
   padding: 16px;
   border-radius: 4px;
-  background: #f9f9f9;
+  background: #b9d5f9;
 }
 
 .application-left,
@@ -32,7 +32,7 @@
 .application-left a.application-link,
 .job-left a.job-link {
   font-size: 0.9em;
-  color: #007bff;
+  color: #09213a;
   text-decoration: underline;
 }
 

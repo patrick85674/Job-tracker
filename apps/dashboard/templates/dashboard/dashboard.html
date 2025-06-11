@@ -1,6 +1,12 @@
-{% extends "main.html" %}
 
+{% extends "main.html" %}
+{% load static %}
 {% block title %}Dashboard{% endblock %}
+
+
+{% block app-styles %}
+<link href="{% static 'dashboard/css/dashboard.css' %}" rel="stylesheet" />
+{% endblock %}
 
 {% block main %}
 
