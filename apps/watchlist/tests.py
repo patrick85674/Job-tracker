@@ -38,8 +38,20 @@ class TestWatchlist(TestCase):
         delta = abs((now() - self.watchjob.updated_at).total_seconds())
         self.assertLess(delta, 5)
 
-    def test_cascade_delete(self):
-        self.watchjob.delete()
+    def test_cascade_delete_job(self):
+        job_id = self.job.id
+        watchjob_id = self.watchjob.id
+        self.job.delete()
+        self.assertFalse(Job.objects.filter(id=job_id).exists())
+        self.assertFalse(Watchlist.objects.filter(id=watchjob_id).exists())
+
+    def test_cascade_delete_user(self):
+        User = get_user_model()
+        user_id = self.user.id
+        watchjob_id = self.watchjob.id
+        self.user.delete()
+        self.assertFalse(User.objects.filter(id=user_id).exists())
+        self.assertFalse(Watchlist.objects.filter(id=watchjob_id).exists())
 
     def test_reverse_relation(self):
         self.assertIn(self.watchjob, self.job.watchlist_set.all())
