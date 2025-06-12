@@ -7,8 +7,9 @@ from apps.application.views.application_home_view import application_home_view
 from apps.application.views.application_remove_view import (
     application_remove_view
 )
-from apps.application.views.report_view import application_report_view
-
+from apps.application.views.application_report_view import (
+    application_report_view
+)
 app_name = "application"  # Enables {% url 'application:application_report' %}
 
 
