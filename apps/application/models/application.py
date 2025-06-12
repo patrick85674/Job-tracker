@@ -67,6 +67,7 @@ class Application(DateColumns):
         db_index=True,
     )
     platform = models.PositiveIntegerField(
+        choices=PlatformType.choices,
         default=PlatformType.NONE,
         null=True,
     )
