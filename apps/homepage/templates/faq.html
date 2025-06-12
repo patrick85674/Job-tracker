@@ -1,0 +1,118 @@
+{% extends "main.html" %}
+
+{% block title %}FAQ for Jopply{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+  <h1 class="mb-4">FAQ for Jopply</h1>
+  <div class="accordion" id="faqAccordion">
+    <!-- Question 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faqHeadingOne">
+        <button class="accordion-button collapsed" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" 
+                aria-expanded="false" aria-controls="faqCollapseOne">
+          How do I sign up on Jopply?
+        </button>
+      </h2>
+      <div id="faqCollapseOne" class="accordion-collapse collapse" 
+           aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Click the Sign Up button in the top-right corner of the homepage, enter your email and password, then confirm via the link we send you. Once confirmed, you’ll land straight in your dashboard.
+        </div>
+      </div>
+    </div>
+    <!-- Question 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faqHeadingTwo">
+        <button class="accordion-button collapsed" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" 
+                aria-expanded="false" aria-controls="faqCollapseTwo">
+          How do I add a new job application?
+        </button>
+      </h2>
+      <div id="faqCollapseTwo" class="accordion-collapse collapse" 
+           aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          After logging in, go to Applications → Add Application, fill out the company name, position title, submission date, etc., and click Save. Your new application will appear immediately in your list.
+        </div>
+      </div>
+    </div>
+    <!-- Question 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faqHeadingThree">
+        <button class="accordion-button collapsed" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" 
+                aria-expanded="false" aria-controls="faqCollapseThree">
+          Can I import applications from a file (CSV, Excel)?
+        </button>
+      </h2>
+      <div id="faqCollapseThree" class="accordion-collapse collapse" 
+           aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Yes! On the All Applications page, click Import, upload your CSV or XLSX file following our provided template, and we’ll automatically create entries for each row.
+        </div>
+      </div>
+    </div>
+    <!-- Question 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faqHeadingFour">
+        <button class="accordion-button collapsed" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#faqCollapseFour" 
+                aria-expanded="false" aria-controls="faqCollapseFour">
+          How do I edit or delete an existing application?
+        </button>
+      </h2>
+      <div id="faqCollapseFour" class="accordion-collapse collapse" 
+           aria-labelledby="faqHeadingFour" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Find the application on All Applications, click the Edit (pencil) icon to modify details or the Delete (trash) icon to remove it permanently.
+        </div>
+      </div>
+    </div>
+    <!-- Question 5 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faqHeadingFive">
+        <button class="accordion-button collapsed" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#faqCollapseFive" 
+                aria-expanded="false" aria-controls="faqCollapseFive">
+          Where can I see all my applications and their statuses?
+        </button>
+      </h2>
+      <div id="faqCollapseFive" class="accordion-collapse collapse" 
+           aria-labelledby="faqHeadingFive" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Visit Applications → All Applications. You’ll see a table listing every application, its submission date, current status, and any notes you’ve added.
+        </div>
+      </div>
+    </div>
+    <!-- Question 6 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faqHeadingSix">
+        <button class="accordion-button collapsed" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#faqCollapseSix" 
+                aria-expanded="false" aria-controls="faqCollapseSix">
+          How do I reset or change my password?
+        </button>
+      </h2>
+      <div id="faqCollapseSix" class="accordion-collapse collapse" 
+           aria-labelledby="faqHeadingSix" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          If you’ve forgotten your password, click Forgot Password? on the login page and follow the email instructions. To change an existing password, go to Account Settings → Change Password once you’re logged in.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% load static %}
+<div class="mt-5 text-center" style="background: url('{% static 'homepage/assets/img/yb.jpg' %}') no-repeat center center; background-size: cover; padding: 2rem;">
+  <h2 class="fw-bold">Haven't found the answer to your question?</h2>
+  <ul class="list-unstyled">
+    <li>First, ask chat GPT chat - it might have the answer.</li>
+    <li>If the bot doesn’t help, say a little prayer 😉</li>
+    <li>And if that still doesn’t work, email us at <a href="mailto:support@jopply.com">support@jopply.com</a>—we’ll be happy to assist!</li>
+  </ul>
+</div>
+
+
+{% endblock %}
