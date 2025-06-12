@@ -7,6 +7,7 @@ from apps.application.views.application_home_view import application_home_view
 from apps.application.views.application_remove_view import (
     application_remove_view,
 )
+from apps.application.views.application_edit_modal_view import application_edit_modal_view
 from apps.application.views.application_partial_remove_view import partial_remove_view as application_partial_remove_view
 from apps.application.views.application_list_partial_view import (
     application_list_partial,
@@ -28,4 +29,5 @@ urlpatterns = [
         name="application_partial_remove",
     ),
     path("partial/", application_list_partial, name="application_list_partial"),
+    path("edit/<int:id>/modal/", application_edit_modal_view, name="application_edit_modal"),
 ]

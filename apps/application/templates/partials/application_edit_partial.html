@@ -1,0 +1,12 @@
+<h3>Update your application</h3>
+<form
+    method="POST"
+    action="{% url 'application:application_edit' application.id %}"   >
+
+    {% csrf_token %}
+    {{ jobform.as_p }}
+    {{ appform.as_p }}
+    
+
+    <button type="submit" id="modal-save">Update</button>
+</form>

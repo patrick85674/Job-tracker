@@ -1,15 +1,15 @@
 
 {% extends "main.html" %}
 {% load static %}
+
 {% block title %}Dashboard{% endblock %}
 
-
 {% block app-styles %}
+
 <link href="{% static 'dashboard/css/dashboard.css' %}" rel="stylesheet" />
 {% endblock %}
 
 {% block main %}
-
 
 <h1>Welcome, {{ request.user.username }}</h1>
 
@@ -77,15 +77,13 @@
   </section>
 </div>
 
-<!-- Trying out Accoirdion structure
-<details>
-  <summary>
-    <h1>accordion</h1>
-  </summary>
-  <p>Study</p>
-  <p>Code</p>
-  <p>Die</p>
-</details> -->
+<!-- Modal -->
+<div id="modal" class="modal" style="display:none;">
+  <div class="modal-content" id="modal-body"></div>
+</div>
+
+<script src="{% static 'dashboard/js/modal.js' %}"></script>
+
 
 {% endblock %}
 
