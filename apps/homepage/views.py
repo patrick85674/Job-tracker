@@ -5,6 +5,10 @@ def homepage_view(request):
     return render(request, 'main.html')
 
 
+def faq(request):
+    return render(request, 'faq.html')
+
+
 def subscribe(request):
     if request.method == "POST":
         form = EmailSubscriptionForm(request.POST)
