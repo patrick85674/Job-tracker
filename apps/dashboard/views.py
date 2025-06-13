@@ -17,7 +17,7 @@ def dashboard_home(request):
     application_items = Application.objects.filter(
         user=request.user
     ).order_by("-updated_at").select_related("job")
-    job_add_form = ApplicationAddForm()
+    application_add_form= ApplicationAddForm()
 
     # application_items = application.objects.filter(
     #     user=request.user
