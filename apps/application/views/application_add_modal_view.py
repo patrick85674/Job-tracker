@@ -1,15 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from apps.job.forms import JobAddForm
 from apps.application.forms.applicationaddform import ApplicationAddForm
 from apps.application.models.application import Application
+from apps.dashboard.constants import DASHBOARD_APPLICATION_LIMIT
+from apps.job.forms import JobAddForm
 
 
 @login_required
-def application_add_view(request):
+def application_add_modal_view(request):
 
-    if request.method == "POST":
+    if request.method == "POST":  # Try to write into database if post-request
 
         appform = ApplicationAddForm(request.POST)
         jobform = JobAddForm(request.POST)
@@ -23,13 +24,25 @@ def application_add_view(request):
             app.user = request.user
             app.job = job
             app.save()
-            # TODO fix correct entry to dict
+
             context = {}
             context = {"job": job}
             context = {"application": app}
 
-            return render(request, "application_added.html", context)
-    else:
+            # Return updated Application list partial so HTMX can update the page
+            application_items = (
+                Application.objects.filter(
+                    user=request.user
+                )
+                .order_by("-updated_at")
+                .select_related("job")[:DASHBOARD_APPLICATION_LIMIT]
+            )
+            return render(
+                request,
+                "partials/application_list_partial.html",
+                {"application_items": application_items},
+            )
+    else:   # This will fill the modal if get-request
         jobform = JobAddForm()
         appform = ApplicationAddForm()
 
@@ -37,4 +50,4 @@ def application_add_view(request):
     context["jobform"] = jobform
     context["appform"] = appform
 
-    return render(request, "application_add.html", context)
+    return render(request, "partials/application_add_modal.html", context)

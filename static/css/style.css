@@ -1,0 +1,33 @@
+.job-box, .application-box {
+    border: 2px solid #0e0e0e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #3c75b7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .filter-input {
+    width: 15%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+  }
+
+  .job-header {
+    display: flex;
+    align-items: center;  /* Vertically center items */
+    gap: 1rem;            /* Space between the job name and link */
+  }
+  
+  .job-header h3 {
+    margin: 0;            /* Remove default bottom margin */
+  }
+  
+  .job-header a {
+    /* Optional styling for the link */
+    text-decoration: none;
+    color: blue;
+  }
+  
