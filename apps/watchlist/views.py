@@ -125,3 +125,41 @@ def watchlist_edit_modal_view(request, id):
 
     context = {"jobform": jobform, "watchlist_item": watchlist_item}
     return render(request, "partials/watchlist_edit_partial.html", context)
+
+
+@login_required
+def watchlist_add_modal_view(request):
+
+    if request.method == "POST":  # Try to write into database if post-request
+
+        jobform = JobAddForm(request.POST)
+
+        if jobform.is_valid():
+            job = jobform.save(commit=False)
+            job.user = request.user
+            job.save()
+            print("job saved")
+
+            Watchlist.objects.create(user=request.user, job=job)
+
+            # Return updated Application list partial so HTMX can update the page
+            watchlist_items = (
+                Watchlist.objects.filter(
+                    user=request.user
+                )
+                .order_by("-updated_at")
+                .select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
+            )
+            print("watchlist fetched")
+            return render(
+                request,
+                "partials/watchlist_list.html",
+                {"watchlist_items": watchlist_items},
+            )
+    else:   # This will fill the modal if get-request
+        jobform = JobAddForm()
+
+    context = {}
+    context["jobform"] = jobform
+
+    return render(request, "partials/watchlist_add_modal.html", context)

@@ -23,4 +23,5 @@ urlpatterns = [
         views.watchlist_edit_modal_view,
         name="watchlist_edit_modal",
     ),
+    path("add/modal/", views.watchlist_add_modal_view, name="watchlist_add_modal"),
 ]

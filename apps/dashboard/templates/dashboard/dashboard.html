@@ -30,7 +30,7 @@
       {% include "partials/watchlist_list.html" %}
     </div>
 
-    <!-- Button to toggle form -->
+    <!-- Add Button -->
     <button
       hx-get="{% url 'watchlist:add_job_to_watchlist' %}"
       hx-target="#job-form-container"
@@ -38,8 +38,6 @@
       type="button">
       {% translate "+ Add Job" %}
     </button>
-
-    
 
     <!-- Form will be dynamically loaded here -->
     <div id="job-form-container"></div>
