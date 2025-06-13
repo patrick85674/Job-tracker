@@ -10,7 +10,7 @@ from apps.job.forms import JobAddForm
 @login_required
 def application_add_modal_view(request):
 
-    if request.method == "POST":
+    if request.method == "POST":  # Try to write into database if post-request
 
         appform = ApplicationAddForm(request.POST)
         jobform = JobAddForm(request.POST)
@@ -42,7 +42,7 @@ def application_add_modal_view(request):
                 "partials/application_list_partial.html",
                 {"application_items": application_items},
             )
-    else:
+    else:   # This will fill the modal if get-request
         jobform = JobAddForm()
         appform = ApplicationAddForm()
 
