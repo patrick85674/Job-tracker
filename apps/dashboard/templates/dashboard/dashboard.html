@@ -1,15 +1,15 @@
 
 {% extends "main.html" %}
 {% load static %}
+
 {% block title %}Dashboard{% endblock %}
 
-
 {% block app-styles %}
+
 <link href="{% static 'dashboard/css/dashboard.css' %}" rel="stylesheet" />
 {% endblock %}
 
 {% block main %}
-
 
 <h1>Welcome, {{ request.user.username }}</h1>
 
@@ -39,6 +39,8 @@
       + Add Job
     </button>
 
+    
+
     <!-- Form will be dynamically loaded here -->
     <div id="job-form-container"></div>
 
@@ -62,6 +64,14 @@
       {% include "partials/application_list_partial.html" %}
     </div>
 
+    <!-- Edit Button -->
+    <button
+        hx-get="{% url 'application:application_add_modal'%}"
+        hx-target="#modal-body"
+        hx-swap="innerHTML">
+        Add
+    </button>
+
     <!-- Button to toggle form -->
     <button
       hx-get="{% url 'application:application_add' %}"
@@ -77,15 +87,13 @@
   </section>
 </div>
 
-<!-- Trying out Accoirdion structure
-<details>
-  <summary>
-    <h1>accordion</h1>
-  </summary>
-  <p>Study</p>
-  <p>Code</p>
-  <p>Die</p>
-</details> -->
+<!-- Modal -->
+<div id="modal" class="modal" style="display:none;">
+  <div class="modal-content" id="modal-body"></div>
+</div>
+
+<script src="{% static 'dashboard/js/modal.js' %}"></script>
+
 
 {% endblock %}
 

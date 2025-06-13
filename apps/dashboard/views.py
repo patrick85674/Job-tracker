@@ -23,13 +23,15 @@ def dashboard_home(request):
     #     user=request.user
     # ).select_related("job")
     # job_add_form = applicationaddform()
-
-    return render(
-        request,
-        "dashboard/dashboard.html",
-        {
+    context = {
             "watchlist_items": watchlist_items,
             "form": job_add_form,
             "application_items": application_items,
-        },
+            "application_form": application_add_form,
+            "disable_sb_forms": True,
+        }
+    return render(
+        request,
+        "dashboard/dashboard.html",
+        context
     )

@@ -18,4 +18,9 @@ urlpatterns = [
         views.watchlist_edit_view,
         name="watchlist_edit",
     ),
+    path(
+        "edit/<int:id>/modal/",
+        views.watchlist_edit_modal_view,
+        name="watchlist_edit_modal",
+    ),
 ]
