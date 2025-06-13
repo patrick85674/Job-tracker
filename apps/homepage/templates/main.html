@@ -18,10 +18,12 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'homepage/css/styles.css' %}" rel="stylesheet" />
+        <!-- Custom styles-->
+        <link href="{% static 'homepage/assets/css/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <!-- Navigation-->
-    <!-- Navigation -->
+    {% block header %}
+    <!-- Navigation-->
 <nav style="background-color: rgb(68, 146, 219); padding: 1rem 2rem;">
     <div style="display: flex; align-items: center; justify-content: space-between;">
         <!-- Logo -->
@@ -45,7 +47,7 @@
         </a>
     </div>
 </nav>
-
+{% endblock %}
 
 {% block main %}
 
@@ -114,32 +116,48 @@
 
         <!-- Image Benefits-->
                 <section class="showcase">
-                <div class="container-fluid p-0">
-                    <div class="row g-0">
-                    <!-- Without Jopply -->
-                    <div class="col-lg-6 showcase-img" style="background-image: url('{% static 'homepage/assets/img/mess.png' %}'); height: 600px; background-size: cover; background-position: center;">
-                    </div>
-                    <div class="col-lg-6 my-auto showcase-text px-5">
-                        <h2>Without Jopply</h2>
-                        <p class="lead mb-0">
-                        Manually updating spreadsheets, losing track of applications, and missing deadlines. Job search chaos.
-                        </p>
-                    </div>
-                    </div>
+  <div class="container-fluid p-0">
 
-                    <div class="row g-0">
-                    <!-- With Jopply -->
-                    <div class="col-lg-6 order-lg-2 showcase-img" style="background-image: url('{% static 'homepage/assets/img/no_mess.png' %}'); height: 600px; background-size: cover; background-position: center;">
-                    </div>
-                    <div class="col-lg-6 order-lg-1 my-auto showcase-text px-5">
-                        <h2>With Jopply</h2>
-                        <p class="lead mb-0">
-                        Stay on top of your job search with visual tracking, reminders, and one smart organized space.
-                        </p>
-                    </div>
-                    </div>
-                </div>
-                </section>
+    <!-- 1. Without Jopply -->
+    <div class="row g-0 mb-5">
+     
+      <div
+        class="col-lg-6 showcase-img"
+        style="background-image: url('{% static 'homepage/assets/img/mess.png' %}');">
+      </div>
+
+  
+      <div class="col-lg-6 d-flex align-items-center showcase-text px-5">
+        <div>
+          <h2>Without Jopply</h2>
+          <p class="lead mb-0">
+            Manually updating spreadsheets, losing track of applications, and missing deadlines. Job search chaos.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. With Jopply -->
+    <div class="row g-0">
+      
+      <div
+        class="col-lg-6 order-lg-2 showcase-img"
+        style="background-image: url('{% static 'homepage/assets/img/no_mess.png' %}');"
+      ></div>
+
+      
+      <div class="col-lg-6 order-lg-1 d-flex align-items-center showcase-text px-5">
+        <div>
+          <h2>With Jopply</h2>
+          <p class="lead mb-0">
+            Stay on top of your job search with visual tracking, reminders, and one smart organized space.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 
 

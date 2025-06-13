@@ -1,0 +1,18 @@
+    {% extends 'main.html' %}
+
+{% block title %}Sign In – Jopply{% endblock %}
+
+{% block main %}
+<div class="d-flex align-items-center justify-content-center vh-100">
+  <div class="w-100" style="max-width: 360px;">
+    <h2 class="text-center mb-4">Sign In</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary w-100">
+        Sign In
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
