@@ -17,7 +17,10 @@
         <p>Status: {{ item.get_status_display }}</p>
         <p>{{ item.job.job_description }}</p>
         <small>Last updated {{ item.updated_at|date:"F j, Y, H:i:s" }}</small>
+
+
     </div>
+    <div>
     <!-- Edit Button -->
     <button
         hx-get="{% url 'application:application_edit_modal' item.id %}"
@@ -25,8 +28,9 @@
         hx-swap="innerHTML">
         Edit
     </button>
+    </div>
     <!-- Delete button -->
-    <div>        
+    <div>
         <form
             hx-post="{% url 'application:application_partial_remove' item.id  %}"
             method="POST"

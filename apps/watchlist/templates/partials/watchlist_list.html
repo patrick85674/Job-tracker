@@ -17,6 +17,15 @@
       <small>Last updated {{ item.updated_at|date:"F j, Y, H:i:s" }}</small>
     </div>
     <div>
+      <!-- Edit Button -->
+      <button
+        hx-get="{% url 'watchlist:watchlist_edit_modal' item.id %}"
+        hx-target="#modal-body"
+        hx-swap="innerHTML">
+        Edit
+      </button>
+    </div>
+    <div>
       <!-- Delete button -->
       <form
         hx-post="{% url 'watchlist:watchlist_partial_remove' item.id  %}"

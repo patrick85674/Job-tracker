@@ -108,3 +108,17 @@ def watchlist_edit_view(request, id):
     context["jobform"] = jobform
 
     return render(request, "application_edit.html", context)
+
+
+@login_required
+def watchlist_edit_modal_view(request, id):
+    watchlist_item = get_object_or_404(Watchlist, id=id)
+    if watchlist_item.user != request.user:
+        return HttpResponseForbidden(
+            _("No permission to change this application!")
+        )
+
+    jobform = JobAddForm(instance=watchlist_item.job)
+
+    context = {"jobform": jobform, "watchlist_item": watchlist_item}
+    return render(request, "partials/watchlist_edit_partial.html", context)
