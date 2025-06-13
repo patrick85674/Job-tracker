@@ -11,12 +11,12 @@ from apps.application.forms.applicationaddform import ApplicationAddForm
 def dashboard_home(request):
     watchlist_items = Watchlist.objects.filter(
         user=request.user
-    ).select_related("job")
+    ).order_by("-updated_at").select_related("job")
     job_add_form = JobAddForm()
 
     application_items = Application.objects.filter(
         user=request.user
-    ).select_related("job")
+    ).order_by("-updated_at").select_related("job")
     job_add_form = ApplicationAddForm()
 
     # application_items = application.objects.filter(
