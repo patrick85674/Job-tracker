@@ -13,7 +13,7 @@ def watchlist_partial(request):
     query = request.GET.get("q", "").strip()
     watchlist_items = Watchlist.objects.filter(
         user=request.user
-    ).select_related("job")
+    ).order_by("-updated_at").select_related("job")
 
     if query:
         watchlist_items = watchlist_items.filter(
@@ -52,7 +52,7 @@ def add_job_to_watchlist(request):
 def current_watchlist(request):
     watchlist_items = Watchlist.objects.filter(
         user=request.user
-    ).select_related("job")
+    ).order_by("-updated_at").select_related("job")
     return render(
         request,
         "partials/watchlist_list.html",
