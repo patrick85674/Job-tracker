@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <h2>Add Job to Application list</h2>
-<form method="post" hx-post="{% url 'application:application_add' %}"
+<form method="post" hx-post="{% url 'application:application_add_modal' %}"
     hx-target="#application-list" hx-swap="innerHTML">
     {% csrf_token %}
     <table id="application_add_form_table">
