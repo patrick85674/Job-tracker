@@ -31,7 +31,7 @@ def application_add_modal_view(request):
             # Return updated Application list partial so HTMX can update the page
             application_items = Application.objects.filter(
                 user=request.user
-            ).select_related("job")
+            ).order_by("-updated_at").select_related("job")
             return render(
                 request,
                 "partials/application_list_partial.html",
