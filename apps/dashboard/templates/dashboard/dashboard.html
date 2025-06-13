@@ -64,22 +64,14 @@
       {% include "partials/application_list_partial.html" %}
     </div>
 
-    <!-- Edit Button -->
+    <!-- Add Button -->
     <button
         hx-get="{% url 'application:application_add_modal'%}"
         hx-target="#modal-body"
         hx-swap="innerHTML">
-        Add
+        + Add application
     </button>
 
-    <!-- Button to toggle form -->
-    <button
-      hx-get="{% url 'application:application_add' %}"
-      hx-target="#application-form-container"
-      hx-swap="outerHTML"
-      type="button">
-      + Add Application
-    </button>
 
     <!-- Form will be dynamically loaded here -->
     <div id="application-form-container"></div>
