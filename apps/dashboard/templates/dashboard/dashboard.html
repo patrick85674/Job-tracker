@@ -1,8 +1,8 @@
 
 {% extends "main.html" %}
 {% load static %}
-
-{% block title %}Dashboard{% endblock %}
+{% load i18n %}
+{% block title %}{% translate "Dashboard" %}{% endblock %}
 
 {% block app-styles %}
 
@@ -11,12 +11,12 @@
 
 {% block main %}
 
-<h1>Welcome, {{ request.user.username }}</h1>
+<h1>{% blocktrans with username=request.user.username %}Welcome, {{ username }}{% endblocktrans %}</h1>
 
 <!-- Watchlist-->
 <div class="job-box">
   <section>
-    <h2>Your Jobs</h2>
+    <h2>{% translate "Your Jobs" %}</h2>
 
     <!-- Filter input -->
     <input type="text" name="q" placeholder="Filter jobs..."
@@ -36,7 +36,7 @@
       hx-target="#job-form-container"
       hx-swap="outerHTML"
       type="button">
-      + Add Job
+      {% translate "+ Add Job" %}
     </button>
 
     
@@ -50,7 +50,7 @@
 <!-- Application list-->
 <div class="application-box">
   <section>
-    <h2>Your Applications</h2>
+    <h2>{% translate "Your Applications" %}</h2>
 
     <!-- Filter input -->
     <input type="text" name="q" placeholder="Filter applications..."
@@ -69,9 +69,11 @@
         hx-get="{% url 'application:application_add_modal'%}"
         hx-target="#modal-body"
         hx-swap="innerHTML">
-        + Add application
+        {% translate "+ Add application" %}
     </button>
-
+    <a href="{% url 'application:application_list' %}">
+      <button type="button">{% translate "Show application list" %}</button>
+    </a>
 
     <!-- Form will be dynamically loaded here -->
     <div id="application-form-container"></div>
