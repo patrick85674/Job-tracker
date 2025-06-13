@@ -1,12 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render
-
-from django.db.models import Value  # still needed for other cases
-
 from apps.application.models.application import Application
 from apps.application.utils.filters import normalize_text
 from apps.application.utils.filters import normalize_jobname_expression
+from django.db.models import F
+
 
 NUMBER_OF_LISTED_APPLICATIONS = 25
 
@@ -41,7 +40,7 @@ def application_list_view(request):
         """
         normalized_input = normalize_text(jobname)
         queryset = queryset.annotate(
-            normalized_jobname=normalize_jobname_expression("job__job_name")
+            normalized_jobname=normalize_jobname_expression(F("job__job_name"))
         ).filter(normalized_jobname__icontains=normalized_input)
 
     # Filter by application date range

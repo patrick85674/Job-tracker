@@ -10,6 +10,8 @@ class JobAddForm(forms.ModelForm):
             "job_name",
             "link",
             "job_description",
+            "company_name",
+            "location"
         ]  # Fields from the model
 
     job_name = forms.CharField(

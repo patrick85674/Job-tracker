@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.http import (
-    HttpResponse,
     HttpResponseBadRequest
 )
 from django.template.loader import render_to_string
@@ -61,7 +60,8 @@ def application_report_view(request):
     else:
         queryset = queryset.order_by("-created_at")
 
-    columns = [_("Job Name"), _("Company"), _("Status"), _("Application Date")]
+    columns = [_("Job Name"), _("Company"), _("Status"), _("Application Date"),
+               _("Contact")]
     data = [
         (
             app.job.job_name,
@@ -69,6 +69,11 @@ def application_report_view(request):
             _(app.get_status_display()),
             app.applied_date.strftime("%d %B %Y")
             if app.applied_date else "",
+            (
+                f"{app.contact_name or ''}\n"
+                f"{app.contact_email or ''}\n"
+                f"{app.contact_phone or ''}"
+             )
         )
         for app in queryset
     ]
