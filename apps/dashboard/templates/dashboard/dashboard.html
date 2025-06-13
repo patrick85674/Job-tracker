@@ -39,6 +39,8 @@
       + Add Job
     </button>
 
+    
+
     <!-- Form will be dynamically loaded here -->
     <div id="job-form-container"></div>
 
@@ -61,6 +63,14 @@
     <div id="application-list">
       {% include "partials/application_list_partial.html" %}
     </div>
+
+    <!-- Edit Button -->
+    <button
+        hx-get="{% url 'application:application_add_modal'%}"
+        hx-target="#modal-body"
+        hx-swap="innerHTML">
+        Add
+    </button>
 
     <!-- Button to toggle form -->
     <button
