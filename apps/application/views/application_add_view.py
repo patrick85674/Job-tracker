@@ -28,15 +28,7 @@ def application_add_view(request):
             context = {"job": job}
             context = {"application": app}
 
-            # Return updated Application list partial so HTMX can update the page
-            application_items = Application.objects.filter(
-                user=request.user
-            ).order_by("-updated_at").select_related("job")
-            return render(
-                request,
-                "partials/application_list_partial.html",
-                {"application_items": application_items},
-            )
+            return render(request, "application_added.html", context)
     else:
         jobform = JobAddForm()
         appform = ApplicationAddForm()
