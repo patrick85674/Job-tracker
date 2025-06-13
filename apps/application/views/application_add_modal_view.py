@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from apps.job.forms import JobAddForm
 from apps.application.forms.applicationaddform import ApplicationAddForm
 from apps.application.models.application import Application
+from apps.dashboard.constants import DASHBOARD_APPLICATION_LIMIT
+from apps.job.forms import JobAddForm
 
 
 @login_required
@@ -29,9 +30,13 @@ def application_add_modal_view(request):
             context = {"application": app}
 
             # Return updated Application list partial so HTMX can update the page
-            application_items = Application.objects.filter(
-                user=request.user
-            ).order_by("-updated_at").select_related("job")
+            application_items = (
+                Application.objects.filter(
+                    user=request.user
+                )
+                .order_by("-updated_at")
+                .select_related("job")[:DASHBOARD_APPLICATION_LIMIT]
+            )
             return render(
                 request,
                 "partials/application_list_partial.html",

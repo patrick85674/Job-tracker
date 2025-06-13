@@ -1,11 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from apps.watchlist.models import Watchlist
-from apps.job.forms import JobAddForm
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
+
+from apps.dashboard.constants import DASHBOARD_WATCHLIST_LIMIT
+from apps.job.forms import JobAddForm
+from apps.watchlist.models import Watchlist
 
 
 @login_required
@@ -20,6 +22,7 @@ def watchlist_partial(request):
             Q(job__job_name__icontains=query)
             | Q(job__job_description__icontains=query)
         )
+    watchlist_items = watchlist_items[:DASHBOARD_WATCHLIST_LIMIT]
 
     return render(
         request,
@@ -52,7 +55,7 @@ def add_job_to_watchlist(request):
 def current_watchlist(request):
     watchlist_items = Watchlist.objects.filter(
         user=request.user
-    ).order_by("-updated_at").select_related("job")
+    ).order_by("-updated_at").select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
     return render(
         request,
         "partials/watchlist_list.html",
