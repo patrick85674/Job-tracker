@@ -161,5 +161,5 @@ def watchlist_add_modal_view(request):
 
     context = {}
     context["jobform"] = jobform
-
+    print("get partials/watchlist_add_modal.html")
     return render(request, "partials/watchlist_add_modal.html", context)

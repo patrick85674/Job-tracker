@@ -16,7 +16,7 @@
 <!-- Watchlist-->
 <div class="job-box">
   <section>
-    <h2>{% translate "Your Jobs" %}</h2>
+    <h2>{% translate "Recent jobs your are interested in" %}</h2>
 
     <!-- Filter input -->
     <input type="text" name="q" placeholder="Filter jobs..."
@@ -32,9 +32,9 @@
 
     <!-- Add Button -->
     <button
-      hx-get="{% url 'watchlist:add_job_to_watchlist' %}"
-      hx-target="#job-form-container"
-      hx-swap="outerHTML"
+      hx-get="{% url 'watchlist:watchlist_add_modal' %}"
+      hx-target="#modal-body"
+      hx-swap="innerHTML"
       type="button">
       {% translate "+ Add Job" %}
     </button>
@@ -48,7 +48,7 @@
 <!-- Application list-->
 <div class="application-box">
   <section>
-    <h2>{% translate "Your Applications" %}</h2>
+    <h2>{% translate "Your recent applications" %}</h2>
 
     <!-- Filter input -->
     <input type="text" name="q" placeholder="Filter applications..."
