@@ -23,10 +23,10 @@ def application_add_view(request):
             app.user = request.user
             app.job = job
             app.save()
-            # TODO fix correct entry to dict
+
             context = {}
-            context = {"job": job}
-            context = {"application": app}
+            context["job"] = job
+            context["application"] = app
 
             return render(request, "application_added.html", context)
     else:
