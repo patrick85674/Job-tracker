@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block main %}
 
-<h2>Add Job to Application list</h2>
+<h2>{% translate "Add Job to Application list" %}</h2>
 <form method="post" hx-post="{% url 'application:application_add' %}"
     hx-target="#application-list" hx-swap="innerHTML">
     {% csrf_token %}
@@ -19,7 +19,7 @@
 
     </table>
 
-    <button type="submit">Save</button>
+    <button type="submit">{% translate "Save" %}</button>
 </form>
 
 {% endblock %}
