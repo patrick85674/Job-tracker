@@ -1,4 +1,5 @@
-<h3>Update your application</h3>
+{% load i18n %}
+<h3>{% translate "Update your application" %}</h3>
 <form
     method="POST"
     action="{% url 'application:application_edit' application.id %}"   >
@@ -8,5 +9,5 @@
     {{ appform.as_p }}
     
 
-    <button type="submit" id="modal-save">Update</button>
+    <button type="submit" id="modal-save">{% translate "Update" %}</button>
 </form>

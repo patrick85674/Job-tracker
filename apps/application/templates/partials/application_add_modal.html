@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<h2>Add Job to Application list</h2>
+<h2>{% translate "Add Job to Application list" %}</h2>
 <form method="post" hx-post="{% url 'application:application_add_modal' %}"
     hx-target="#application-list" hx-swap="innerHTML">
     {% csrf_token %}
@@ -17,5 +17,5 @@
 
     </table>
 
-    <button type="submit" id="modal-save">Save new application</button>
+    <button type="submit" id="modal-save">{% translate "Save new application" %}</button>
     </form>
