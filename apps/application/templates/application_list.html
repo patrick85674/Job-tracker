@@ -82,7 +82,9 @@
                         </h6>
 
                         <p class="mb-1"><strong>{% translate "Status" %}:</strong> {{ application.get_status_display }}</p>
-                        <p class="mb-1"><strong>{% translate "Applied Date" %}:</strong> {{ application.applied_date|date:"Y-m-d" }}</p>
+                        {% if application.applied_date %}
+                            <p class="mb-1"><strong>{% translate "Applied Date" %}:</strong> {{ application.applied_date|date:"Y-m-d" }}</p>
+                        {% endif %}
                         <p class="mb-1">
                             <strong>{% translate "Contact" %}:</strong>
                             {% if application.contact_name %}{{ application.contact_name }}{% endif %}
@@ -94,9 +96,17 @@
                               {% if application.contact_name or application.contact_email %} | {% endif %}
                               {{ application.contact_phone }}
                             {% endif %}
-                          </p>                          
+                          </p>    
+                        {% if application.job.job_description %}
+                          <p class="mb-2"><strong>{% translate "Job Description" %}:</strong> 
+                          {{ application.job.job_description|slice:":50" }}{% if application.job.job_description|length > 50%}...{% endif %}</p>
+                          {% endif %} 
                         {% if application.comment %}
-                            <p class="mb-2"><strong>{% translate "Comment" %}:</strong> {{ application.comment }}</p>
+                            <p class="mb-2"><strong>{% translate "Comment" %}:</strong> 
+                                {{ application.comment|slice:":50" }}{% if application.comment|length > 50%}...{% endif %}</p>
+                        {% endif %}
+                        {% if application.platform %}
+                            <p class="mb-2"><strong>{% translate "Platform" %}:</strong> {{ application.get_platform_display }}</p>
                         {% endif %}
 
                         <div class="d-flex gap-2 mt-3">
@@ -147,3 +157,5 @@
 
 </div>
 {% endblock %}
+
+    
