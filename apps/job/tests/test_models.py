@@ -35,7 +35,7 @@ class TestJobModel(TestCase):
     def test_store_all_fields(self):
         TEST_JOB_NAME: str = "Job name test (store)"
         TEST_LINK: str = "https://example.com"
-        TEST_JOB_DESCRIPTION: str = "Test desc (sote)"
+        TEST_JOB_DESCRIPTION: str = "Test desc (store)"
         TEST_COMPANY_NAME: str = "Test company name (store)"
         TEST_LOCATION: str = "Test location (store)"
 
