@@ -26,5 +26,5 @@
 
   <p><a href="{% url 'password_reset' %}">{% translate "Forgot your password?" %}</a></p>
 {% url 'register' as register_url %}
-  <p>{% blocktrans with register_url=register_url %}Don't have an account?" <a href="{{ register_url }}">Register here</a>{% endblocktrans %}</p>
+  <p>{% blocktrans with register_url=register_url %}Don't have an account? <a href="{{ register_url }}">Register here</a>{% endblocktrans %}</p>
 {% endblock %}
