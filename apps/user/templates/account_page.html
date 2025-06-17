@@ -4,7 +4,7 @@
 {% block title %}{% translate "Account Page" %}{% endblock %}
 
 {% block main %}
-  <h2>{% blocktrans with username=request.user.username %}Hello, {{ username }}!{% endblocktrans %}</h2>
+  <h2>{% translate "My Account" %}</h2>
 
   {% if messages %}
     {% for message in messages %}
