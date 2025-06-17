@@ -27,7 +27,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
     """
     Displays the home page for authenticated users.
     """
-    template_name = 'home.html'
+    template_name = 'dashboard/dashboard.html'
 
 
 # ----------------- Logout View -----------------

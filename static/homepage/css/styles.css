@@ -10873,6 +10873,11 @@ header.masthead:before {
   left: 0;
   opacity: 0.5;
 }
+
+header.masthead::before {
+  display: none !important;
+}
+
 header.masthead h1, header.masthead .h1 {
   font-size: 2rem;
 }
@@ -10882,18 +10887,35 @@ header.masthead h1, header.masthead .h1 {
     padding-bottom: 12rem;
   }
   header.masthead h1, header.masthead .h1 {
-    font-size: 3rem;
+    font-size: 5rem;
   }
 }
+
+.btn-signin {
+  background-color: white;
+  color: rgb(68, 146, 219);
+  font-weight: 600;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 
 .showcase .showcase-text {
   padding: 3rem;
 }
-.showcase .showcase-img {
-  min-height: 30rem;
-  background-size: cover;
+
+.showcase-img {
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center;
+  max-height: 600px;
 }
-@media (min-width: 768px) {
+
+
+@media (min-width: 500px) {
   .showcase .showcase-text {
     padding: 7rem;
   }
@@ -10914,7 +10936,7 @@ header.masthead h1, header.masthead .h1 {
 .call-to-action {
   position: relative;
   background-color: #343a40;
-  background: url("../assets/img/bg-masthead.jpg") no-repeat center center;
+  background: url("../assets/img/yb.jpg") no-repeat center center;
   background-size: cover;
   padding-top: 7rem;
   padding-bottom: 7rem;
@@ -10928,6 +10950,39 @@ header.masthead h1, header.masthead .h1 {
   top: 0;
   left: 0;
   opacity: 0.5;
+}
+/* Style for the FAQ header with a gradient background */
+.faq-header {
+  background: linear-gradient(135deg, #FFD700, #1E90FF);
+  padding: 3rem 1rem;
+  text-align: center;
+  color: #fff;
+}
+
+/* Style for the FAQ content container */
+.faq-content {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Style for individual FAQ items */
+.faq-item {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item h3 {
+  margin-top: 0;
+  color: #1E90FF;
+}
+
+.faq-item p {
+  line-height: 1.6;
+  color: #555;
 }
 
 footer.footer {
