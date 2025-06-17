@@ -22,5 +22,4 @@ def subscribe(request):
 def subscribe_success(request):
     return render(request, 'subscribe_success.html')
 
-def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+
