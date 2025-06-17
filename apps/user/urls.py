@@ -1,3 +1,4 @@
+
 from django.urls import path
 from apps.user.views.auth_views import RegisterView, HomeView, logout_view
 from apps.user.views.account_views import AccountPageView, DeleteAccountView
