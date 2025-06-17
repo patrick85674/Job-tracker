@@ -1,0 +1,73 @@
+.application-list,
+.watchlist {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.application-item,
+.job-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 4px;
+  background: #b9d5f9;
+}
+
+.application-left,
+.job-left {
+  flex: 1 1 40%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.application-left h3,
+.job-left h3 {
+  margin: 0;
+}
+
+.application-left a.application-link,
+.job-left a.job-link {
+  font-size: 0.9em;
+  color: #09213a;
+  text-decoration: underline;
+}
+
+.application-right,
+.job-right {
+  flex: 1 1 55%;
+  padding-left: 20px;
+}
+
+.application-right p,
+.application-right small,
+.job-right p,
+.job-right small {
+  margin: 4px 0;
+}
+.modal {
+  display: none;               /* Controlled by JS */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent backdrop */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  max-height: 80vh;            /* limit height */
+  overflow-y: auto;            /* scroll if needed */
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+}
+

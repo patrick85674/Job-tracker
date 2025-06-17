@@ -11,7 +11,7 @@ class JobAddForm(forms.ModelForm):
             "link",
             "job_description",
             "company_name",
-            "location"
+            "location",
         ]  # Fields from the model
 
     job_name = forms.CharField(
@@ -27,7 +27,7 @@ class JobAddForm(forms.ModelForm):
         label=_("Job link"),
         max_length=300,
         required=False,
-        widget=forms.TextInput(attrs={"placeholder": _("Enter link...")}),
+        widget=forms.URLInput(attrs={"placeholder": _("Enter link...")}),
     )
 
     job_description = forms.CharField(
@@ -43,9 +43,7 @@ class JobAddForm(forms.ModelForm):
         label=_("Company name"),
         max_length=300,
         required=False,
-        widget=forms.TextInput(
-            attrs={"placeholder": _("Enter the name...")}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": _("Enter the name...")}),
     )
 
     location = forms.CharField(

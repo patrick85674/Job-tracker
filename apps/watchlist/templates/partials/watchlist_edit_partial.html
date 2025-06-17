@@ -1,0 +1,11 @@
+<h3>Update your Watchlist entry</h3>
+<form
+    method="POST"
+    action="{% url 'watchlist:watchlist_edit' watchlist_item.id %}"   >
+
+    {% csrf_token %}
+    {{ jobform.as_p }}
+    
+
+    <button type="submit" id="modal-save">Update</button>
+</form>

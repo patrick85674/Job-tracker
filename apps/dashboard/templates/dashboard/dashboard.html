@@ -1,0 +1,111 @@
+
+{% extends "main.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block app-styles %}
+
+<link href="{% static 'dashboard/css/dashboard.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block main %}
+
+<h1>{% blocktrans with username=request.user.username %}Welcome, {{ username }}{% endblocktrans %}</h1>
+
+<!-- Watchlist-->
+<div class="job-box">
+  <section>
+    <h2>{% translate "Recent jobs your are interested in" %}</h2>
+
+    <!-- Filter input -->
+    <input type="text" name="q" placeholder="Filter jobs..."
+      hx-get="{% url 'watchlist:watch_list_partial' %}"
+      hx-trigger="keyup changed delay:500ms"
+      hx-target="#watch-list"
+      hx-swap="innerHTML"
+      class="filter-input">
+
+    <div id="watch-list">
+      {% include "partials/watchlist_list.html" %}
+    </div>
+
+    <!-- Add Button -->
+    <button
+      hx-get="{% url 'watchlist:watchlist_add_modal' %}"
+      hx-target="#modal-body"
+      hx-swap="innerHTML"
+      type="button">
+      {% translate "+ Add Job" %}
+    </button>
+
+    <!-- Form will be dynamically loaded here -->
+    <div id="job-form-container"></div>
+
+  </section>
+</div>
+
+<!-- Application list-->
+<div class="application-box">
+  <section>
+    <h2>{% translate "Your recent applications" %}</h2>
+
+    <!-- Filter input -->
+    <input type="text" name="q" placeholder="Filter applications..."
+      hx-get="{% url 'application:application_list_partial' %}"
+      hx-trigger="keyup changed delay:500ms"
+      hx-target="#application-list"
+      hx-swap="innerHTML"
+      class="filter-input">
+
+    <div id="application-list">
+      {% include "partials/application_list_partial.html" %}
+    </div>
+
+    <!-- Add Button -->
+    <button
+        hx-get="{% url 'application:application_add_modal'%}"
+        hx-target="#modal-body"
+        hx-swap="innerHTML">
+        {% translate "+ Add application" %}
+    </button>
+    <a href="{% url 'application:application_list' %}">
+      <button type="button">{% translate "Show application list" %}</button>
+    </a>
+
+    <!-- Form will be dynamically loaded here -->
+    <div id="application-form-container"></div>
+
+  </section>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal" style="display:none;">
+  <div class="modal-content" id="modal-body"></div>
+</div>
+
+<script src="{% static 'dashboard/js/modal.js' %}"></script>
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Reset and hide form container after successful HTMX request
+  document.body.addEventListener("htmx:afterRequest", function (evt) {
+    if (evt.detail.target.id === "job-form-container") {
+      document.getElementById("job-form-container").innerHTML = "";
+    }
+  });
+</script>
+
+<script>
+  // Reset and hide form container after successful HTMX request
+  document.body.addEventListener("htmx:afterRequest", function (evt) {
+    if (evt.detail.target.id === "application-form-container") {
+      document.getElementById("application-form-container").innerHTML = "";
+    }
+  });
+</script>
+
+{% endblock %}

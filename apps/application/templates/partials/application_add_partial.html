@@ -1,0 +1,13 @@
+{% load i18n %}
+<h3>{% translate "Add your application" %}</h3>
+<form
+    method="POST"
+    hx-post="{% url 'application:application_add' %}">
+
+    {% csrf_token %}
+    {{ jobform.as_p }}
+    {{ appform.as_p }}
+    
+
+    <button type="submit" id="modal-save">{% translate "Add new application" %}</button>
+</form>
