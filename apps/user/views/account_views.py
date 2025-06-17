@@ -32,7 +32,10 @@ class AccountPageView(LoginRequiredMixin, View):
             password_form = CustomPasswordChangeForm(user=request.user)
             if email_form.is_valid():
                 email_form.save()
-                messages.success(request, _("Email updated successfully."))
+                messages.success(
+                    request,
+                    _("The email address has been successfully updated.")
+                )
                 return redirect('account_page')
             
         # Handle password update
@@ -46,7 +49,10 @@ class AccountPageView(LoginRequiredMixin, View):
                 user = password_form.save()
                 # Prevents logout after password change
                 update_session_auth_hash(request, user)
-                messages.success(request, _("Password updated successfully."))
+                messages.success(
+                    request,
+                    _("Your password has been successfully updated.")
+                )
                 return redirect('account_page')
 
         # If form is invalid or no recognized submit button was pressed
@@ -82,6 +88,9 @@ class DeleteAccountView(LoginRequiredMixin, View):
                 logout(request)
                 return redirect('account_deleted')
             else:
-                form.add_error('password', _("Incorrect password."))
+                form.add_error(
+                    'password',
+                    _("The password entered is incorrect.")
+                )
 
         return render(request, 'account_delete.html', {'form': form})
