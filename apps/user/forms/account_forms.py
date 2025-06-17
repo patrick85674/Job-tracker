@@ -59,10 +59,13 @@ class EmailChangeForm(forms.ModelForm):
         password = cleaned_data.get("password")
 
         if email and confirm_email and email != confirm_email:
-            self.add_error("confirm_email", _("Emails do not match."))
+            self.add_error("confirm_email", _("Email addresses do not match."))
 
         if password and not self.user.check_password(password):
-            self.add_error("password", _("Incorrect current password."))
+            self.add_error(
+                "password",
+                _("The password you entered is incorrect.")
+            )
 
         return cleaned_data
 

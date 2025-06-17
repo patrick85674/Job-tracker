@@ -25,12 +25,12 @@ class UserRegisterForm(UserCreationForm):
     )
 
     email = forms.EmailField(
-        label=_("Email"),
+        label=_("Email Address"),
         max_length=100,
         required=True,
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': _("Enter your email"),
+            'placeholder': _("Enter your email address"),
         })
     )
 
