@@ -2,3 +2,5 @@ Django==5.1.6
 python-environ==0.4.54
 django-phonenumbers==1.0.1
 django-phonenumber-field==8.1.0
+WeasyPrint>=57.0
+openpyxl>=3.0.10

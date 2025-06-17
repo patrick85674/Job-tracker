@@ -1,48 +1,162 @@
 {% extends 'main.html' %}
 {% load i18n %}
+
 {% block main %}
+<div class="container my-5">
 
-<h3>{% translate "Applications:" %}</h3>
-<div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>{% translate "Applications" %}</h3>
+        <a href="{% url 'application:application_add' %}" class="btn btn-success">
+            {% translate "Add New Application" %}
+        </a>
+    </div>
 
-    {% for application in page_obj.object_list %}
-    <h2>{{ application.job.job_name }}</h2>
-    <p>{{ application.get_status_display }}</p>
-{% empty %}
-    <p>{% translate "No application available." %}</p>
-{% endfor %}
+    <!-- Filter Form -->
+    <form method="get" class="row g-3 align-items-end mb-4">
+        <div class="col-md-2">
+            <label for="status" class="form-label">{% translate "Status" %}</label>
+            <select name="status" id="status" class="form-select">
+                <option value="">{% translate "All" %}</option>
+                {% for key, value in status_choices %}
+                    <option value="{{ key }}" {% if filters.status == key|stringformat:"s" %}selected{% endif %}>
+                        {{ value }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-<div class="pagination">
-    <span class="page-info">
-        Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}
-    </span>
+        <div class="col-md-2">
+            <label for="jobname" class="form-label">{% translate "Job Name" %}</label>
+            <input type="text" name="jobname" id="jobname" class="form-control" value="{{ filters.jobname }}">
+        </div>
 
-    <ul class="pagination-list">
-        {% if page_obj.has_previous %}
-            <li><a href="?page=1">{% translate "&laquo; First" %}</a></li>
-            <li><a href="?page={{ page_obj.previous_page_number }}">{% translate "‹ Back" %}</a></li>
-        {% else %}
-            <li class="disabled">{% translate "&laquo; First" %}</li>
-            <li class="disabled">{% translate "‹ Back" %}</li>
-        {% endif %}
+        <div class="col-md-2">
+            <label for="date_from" class="form-label">{% translate "Date from" %}</label>
+            <input type="date" name="date_from" id="date_from" class="form-control" value="{{ filters.date_from }}">
+        </div>
 
-        {% for num in page_obj.paginator.page_range %}
-            {% if num == page_obj.number %}
-                <li class="active">{{ num }}</li>
-            {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-                <li><a href="?page={{ num }}">{{ num }}</a></li>
+        <div class="col-md-2">
+            <label for="date_to" class="form-label">{% translate "Date to" %}</label>
+            <input type="date" name="date_to" id="date_to" class="form-control" value="{{ filters.date_to }}">
+        </div>
+
+        <div class="col-md-2">
+            <label for="sort" class="form-label">{% translate "Sort by" %}</label>
+            <select name="sort" id="sort" class="form-select">
+                <option value="">{% translate "Default" %}</option>
+                <option value="status" {% if filters.sort == "status" %}selected{% endif %}>{% translate "Status" %}</option>
+                <option value="created_at" {% if filters.sort == "created_at" %}selected{% endif %}>{% translate "Created Date" %}</option>
+                <option value="job__job_name" {% if filters.sort == "job__job_name" %}selected{% endif %}>{% translate "Job Name" %}</option>
+                <option value="job__company_name" {% if filters.sort == "job__company_name" %}selected{% endif %}>{% translate "Company Name" %}</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-primary w-100">{% translate "Apply" %}</button>
+            <a href="{% url 'application:application_list' %}" class="btn btn-secondary w-100">{% translate "Reset Filters" %}</a>
+        </div>
+    </form>
+
+    <!-- Report Buttons -->
+    <div class="mb-4 d-flex gap-2">
+        <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=pdf" class="btn btn-outline-primary">
+            {% translate "Download PDF Report" %}
+        </a>
+        <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=xlsx" class="btn btn-outline-primary">
+            {% translate "Download XLSX Report" %}
+        </a>
+    </div>
+
+    <!-- Applications List -->
+    {% if page_obj.object_list %}
+        <div class="row row-cols-1 g-4">
+            {% for application in page_obj.object_list %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ application.job.job_name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            {% if application.job.company_name %}{{ application.job.company_name }}{% endif %}
+                            {% if application.job.company_name and application.job.location %} | {% endif %}
+                            {% if application.job.location %}{{application.job.location}}{% endif %}
+                        </h6>
+
+                        <p class="mb-1"><strong>{% translate "Status" %}:</strong> {{ application.get_status_display }}</p>
+                        {% if application.applied_date %}
+                            <p class="mb-1"><strong>{% translate "Applied Date" %}:</strong> {{ application.applied_date|date:"Y-m-d" }}</p>
+                        {% endif %}
+                        <p class="mb-1">
+                            <strong>{% translate "Contact" %}:</strong>
+                            {% if application.contact_name %}{{ application.contact_name }}{% endif %}
+                            {% if application.contact_email %}
+                              {% if application.contact_name %} | {% endif %}
+                              {{ application.contact_email }}
+                            {% endif %}
+                            {% if application.contact_phone %}
+                              {% if application.contact_name or application.contact_email %} | {% endif %}
+                              {{ application.contact_phone }}
+                            {% endif %}
+                          </p>    
+                        {% if application.job.link %}
+                            <p class="mb-1"><strong>{% translate "Job Link" %}:</strong> {{ application.job.link }}</p>
+                        {% endif %}
+                        {% if application.job.job_description %}
+                          <p class="mb-2"><strong>{% translate "Job Description" %}:</strong> 
+                          {{ application.job.job_description|slice:":50" }}{% if application.job.job_description|length > 50%}...{% endif %}</p>
+                          {% endif %} 
+                        {% if application.comment %}
+                            <p class="mb-2"><strong>{% translate "Comment" %}:</strong> 
+                                {{ application.comment|slice:":50" }}{% if application.comment|length > 50%}...{% endif %}</p>
+                        {% endif %}
+                        {% if application.platform %}
+                            <p class="mb-2"><strong>{% translate "Platform" %}:</strong> {{ application.get_platform_display }}</p>
+                        {% endif %}
+
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{% url 'application:application_edit' id=application.id %}" class="btn btn-sm btn-primary">{% trans "Edit" %}</a>
+                            <a href="{% url 'application:application_remove' id=application.id %}" class="btn btn-sm btn-secondary" onclick="return confirm('{% trans "Are you sure?" %}');">{% trans "Delete" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">{% translate "No application available." %}</p>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1&{{ request.GET.urlencode|urlencode }}">{% translate "« First" %}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode|urlencode }}">{% translate "‹ Back" %}</a>
+                </li>
             {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}">{% translate "Next ›" %}</a></li>
-            <li><a href="?page={{ page_obj.paginator.num_pages }}">{% translate "Last &raquo;" %}</a></li>
-        {% else %}
-            <li class="disabled">{% translate "Next ›" %}</li>
-            <li class="disabled">{% translate "Last &raquo;" %}</li>
-        {% endif %}
-    </ul>
-</div>
-</div>
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}&{{ request.GET.urlencode|urlencode }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
 
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode|urlencode }}">{% translate "Next ›" %}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&{{ request.GET.urlencode|urlencode }}">{% translate "Last »" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+</div>
 {% endblock %}
