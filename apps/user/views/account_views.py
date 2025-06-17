@@ -3,6 +3,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, authenticate, logout
+from django.utils.translation import gettext_lazy as _
 from apps.user.forms import EmailChangeForm, CustomPasswordChangeForm
 from apps.user.forms import DeleteAccountForm
 
@@ -20,7 +21,7 @@ class AccountPageView(LoginRequiredMixin, View):
             'email_form': email_form,
             'password_form': password_form,
         })
-    
+
     def post(self, request):
         # Handle email update
         if 'email_submit' in request.POST:
@@ -31,7 +32,7 @@ class AccountPageView(LoginRequiredMixin, View):
             password_form = CustomPasswordChangeForm(user=request.user)
             if email_form.is_valid():
                 email_form.save()
-                messages.success(request, "Email updated successfully.")
+                messages.success(request, _("Email updated successfully."))
                 return redirect('account_page')
             
         # Handle password update
@@ -45,7 +46,7 @@ class AccountPageView(LoginRequiredMixin, View):
                 user = password_form.save()
                 # Prevents logout after password change
                 update_session_auth_hash(request, user)
-                messages.success(request, "Password updated successfully.")
+                messages.success(request, _("Password updated successfully."))
                 return redirect('account_page')
 
         # If form is invalid or no recognized submit button was pressed
@@ -81,6 +82,6 @@ class DeleteAccountView(LoginRequiredMixin, View):
                 logout(request)
                 return redirect('account_deleted')
             else:
-                form.add_error('password', "Incorrect password.")
-        
+                form.add_error('password', _("Incorrect password."))
+
         return render(request, 'account_delete.html', {'form': form})

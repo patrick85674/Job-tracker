@@ -17,5 +17,5 @@ class CustomPasswordValidator:
 
     def get_help_text(self):
         return _(
-            "Your password must include at least one letter and one number."
+            _("Your password must include at least one letter and one number.")
         )

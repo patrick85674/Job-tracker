@@ -1,0 +1,13 @@
+{% load i18n %}
+<h3>{% translate "Update your application" %}</h3>
+<form
+    method="POST"
+    action="{% url 'application:application_edit' application.id %}"   >
+
+    {% csrf_token %}
+    {{ jobform.as_p }}
+    {{ appform.as_p }}
+    
+
+    <button type="submit" id="modal-save">{% translate "Update" %}</button>
+</form>

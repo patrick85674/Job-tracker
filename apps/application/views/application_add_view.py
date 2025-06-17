@@ -10,10 +10,11 @@ from apps.application.models.application import Application
 def application_add_view(request):
 
     if request.method == "POST":
+
         appform = ApplicationAddForm(request.POST)
         jobform = JobAddForm(request.POST)
-        if appform.is_valid() and jobform.is_valid():
 
+        if appform.is_valid() and jobform.is_valid():
             job = jobform.save(commit=False)
             job.user = request.user
             job.save()
@@ -24,10 +25,10 @@ def application_add_view(request):
             app.save()
 
             context = {}
-            context = {"job": job}
-            context = {"application": app}
-            return render(request, "application_added.html", context)
+            context["job"] = job
+            context["application"] = app
 
+            return render(request, "application_added.html", context)
     else:
         jobform = JobAddForm()
         appform = ApplicationAddForm()
