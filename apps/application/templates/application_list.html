@@ -97,6 +97,9 @@
                               {{ application.contact_phone }}
                             {% endif %}
                           </p>    
+                        {% if application.job.link %}
+                            <p class="mb-1"><strong>{% translate "Job Link" %}:</strong> {{ application.job.link }}</p>
+                        {% endif %}
                         {% if application.job.job_description %}
                           <p class="mb-2"><strong>{% translate "Job Description" %}:</strong> 
                           {{ application.job.job_description|slice:":50" }}{% if application.job.job_description|length > 50%}...{% endif %}</p>
