@@ -14,7 +14,6 @@ def subscribe(request):
         form = EmailSubscriptionForm(request.POST)
         if form.is_valid():
             form.save()
-            # можна відправити редірект на сторінку з повідомленням про успіх
             return redirect('subscribe-success')
     else:
         form = EmailSubscriptionForm()
@@ -22,3 +21,6 @@ def subscribe(request):
 
 def subscribe_success(request):
     return render(request, 'subscribe_success.html')
+
+def dashboard(request):
+    return render(request, 'dashboard/dashboard.html')
