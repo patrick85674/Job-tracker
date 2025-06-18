@@ -1,14 +1,26 @@
 {% extends 'main.html' %}
 {% load i18n %}
+{% load static %}
+
+{% block app-styles %}
+
+<link href="{% static 'dashboard/css/dashboard.css' %}" rel="stylesheet" />
+{% endblock %}
 
 {% block main %}
 <div class="container my-5">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3>{% translate "Applications" %}</h3>
-        <a href="{% url 'application:application_add' %}" class="btn btn-success">
-            {% translate "Add New Application" %}
-        </a>
+        <!-- Add Button -->
+        <button
+            class="btn btn-sm btn-success"
+            hx-get="{% url 'application:application_add_modal' %}"
+            hx-target="#modal-body"
+            hx-swap="innerHTML">
+            {% translate "+ Add New Application" %}
+        </button>
+
     </div>
 
     <!-- Filter Form -->
@@ -113,7 +125,14 @@
                         {% endif %}
 
                         <div class="d-flex gap-2 mt-3">
-                            <a href="{% url 'application:application_edit' id=application.id %}" class="btn btn-sm btn-primary">{% trans "Edit" %}</a>
+                            <!-- Edit Button -->
+                            <button
+                                class="btn btn-sm btn-primary"
+                                hx-get="{% url 'application:application_edit_modal' application.id %}"
+                                hx-target="#modal-body"
+                                hx-swap="innerHTML">
+                                {% translate "Edit" %}
+                            </button>
                             <a href="{% url 'application:application_remove' id=application.id %}" class="btn btn-sm btn-secondary" onclick="return confirm('{% trans "Are you sure?" %}');">{% trans "Delete" %}</a>
                         </div>
                     </div>
@@ -131,27 +150,27 @@
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1&{{ request.GET.urlencode|urlencode }}">{% translate "« First" %}</a>
+                    <a class="page-link" href="?page=1&{{ request.GET.urlencode }}">{% translate "« First" %}</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode|urlencode }}">{% translate "‹ Back" %}</a>
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">{% translate "‹ Back" %}</a>
                 </li>
             {% endif %}
 
             {% for num in page_obj.paginator.page_range %}
                 {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
                     <li class="page-item {% if num == page_obj.number %}active{% endif %}">
-                        <a class="page-link" href="?page={{ num }}&{{ request.GET.urlencode|urlencode }}">{{ num }}</a>
+                        <a class="page-link" href="?page={{ num }}&{{ request.GET.urlencode }}">{{ num }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode|urlencode }}">{% translate "Next ›" %}</a>
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">{% translate "Next ›" %}</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&{{ request.GET.urlencode|urlencode }}">{% translate "Last »" %}</a>
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&{{ request.GET.urlencode }}">{% translate "Last »" %}</a>
                 </li>
             {% endif %}
         </ul>
@@ -159,4 +178,34 @@
     {% endif %}
 
 </div>
+
+<!-- Modal -->
+<div id="modal" class="modal" style="display:none;">
+    <div class="modal-content" id="modal-body"></div>
+</div>
+  
+<script src="{% static 'dashboard/js/modal.js' %}"></script>
+
+{% endblock %}
+
+
+{% block extra_scripts %}
+<script>
+  // Reset and hide form container after successful HTMX request
+  document.body.addEventListener("htmx:afterRequest", function (evt) {
+    if (evt.detail.target.id === "job-form-container") {
+      document.getElementById("job-form-container").innerHTML = "";
+    }
+  });
+</script>
+
+<script>
+  // Reset and hide form container after successful HTMX request
+  document.body.addEventListener("htmx:afterRequest", function (evt) {
+    if (evt.detail.target.id === "application-form-container") {
+      document.getElementById("application-form-container").innerHTML = "";
+    }
+  });
+</script>
+
 {% endblock %}
