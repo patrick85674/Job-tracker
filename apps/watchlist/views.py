@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +12,9 @@ from apps.watchlist.models import Watchlist
 
 @login_required
 def watchlist_partial(request):
+    """
+    Returns user's watchlist items based on query.
+    """
     query = request.GET.get("q", "").strip()
     watchlist_items = Watchlist.objects.filter(
         user=request.user
@@ -31,8 +34,13 @@ def watchlist_partial(request):
     )
 
 
+from django.http import HttpRequest, HttpResponse
+
 @login_required
-def add_job_to_watchlist(request):
+def add_job_to_watchlist(request: HttpRequest) -> HttpResponse:
+    """
+    Handle adding a job to the user's watchlist.
+    """
     if request.method == "GET":
         form = JobAddForm()
         return render(request, "job/add_job_form.html", {"form": form})
@@ -52,7 +60,10 @@ def add_job_to_watchlist(request):
             return render(request, "job/add_job_form.html", {"form": form})
 
 
-def current_watchlist(request):
+def current_watchlist(request: HttpRequest) -> HttpResponse:
+    """
+    Render the current user's watchlist.
+    """
     watchlist_items = Watchlist.objects.filter(
         user=request.user
     ).order_by("-updated_at").select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
@@ -64,7 +75,10 @@ def current_watchlist(request):
 
 
 @login_required
-def watchlist_remove_view(request, id):
+def watchlist_remove_view(request: HttpRequest, id: int) -> HttpResponse:
+    """
+    Remove a watchlist entry.
+    """
     watchlist = get_object_or_404(Watchlist, id=id)
     if watchlist.user != request.user:
         return HttpResponseForbidden(
@@ -76,11 +90,11 @@ def watchlist_remove_view(request, id):
     return render(request, "watchlist_entry_removed.html", context)
 
 
-# from django.shortcuts import render, redirect, get_object_or_404
-
-
 @login_required
-def partial_remove_view(request, id):
+def partial_remove_view(request: HttpRequest, id: int) -> HttpResponse:
+    """
+    Deletes item in the watchlist and updates partial list.
+    """
     # Deletes item in the watchlist
     watchlist_remove_view(request, id)
     # Update partial list
@@ -88,7 +102,10 @@ def partial_remove_view(request, id):
 
 
 @login_required
-def watchlist_edit_view(request, id):
+def watchlist_edit_view(request: HttpRequest, id: int) -> HttpResponse:
+    """
+    Edit a watchlist entry.
+    """
     watchlist_entry = get_object_or_404(Watchlist, id=id)
     if watchlist_entry.user != request.user:
         return HttpResponseForbidden(
@@ -101,20 +118,20 @@ def watchlist_edit_view(request, id):
         if jobform.is_valid():
             jobform.save()
 
-            context = {}
-
             return redirect("dashboard:home")
     else:
         jobform = JobAddForm(None, instance=watchlist_entry.job)
 
-    context = {}
-    context["jobform"] = jobform
+    context = {"jobform": jobform}
 
     return render(request, "application_edit.html", context)
 
 
 @login_required
-def watchlist_edit_modal_view(request, id):
+def watchlist_edit_modal_view(request: HttpRequest, id: int) -> HttpResponse:
+    """
+    Edit a watchlist entry in a modal.
+    """
     watchlist_item = get_object_or_404(Watchlist, id=id)
     if watchlist_item.user != request.user:
         return HttpResponseForbidden(
@@ -128,7 +145,10 @@ def watchlist_edit_modal_view(request, id):
 
 
 @login_required
-def watchlist_add_modal_view(request):
+def watchlist_add_modal_view(request: HttpRequest) -> HttpResponse:
+    """
+    Add a new watchlist entry in a modal.
+    """
 
     if request.method == "POST":  # Try to write into database if post-request
 
@@ -138,7 +158,6 @@ def watchlist_add_modal_view(request):
             job = jobform.save(commit=False)
             job.user = request.user
             job.save()
-            print("job saved")
 
             Watchlist.objects.create(user=request.user, job=job)
 
@@ -150,7 +169,6 @@ def watchlist_add_modal_view(request):
                 .order_by("-updated_at")
                 .select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
             )
-            print("watchlist fetched")
             return render(
                 request,
                 "partials/watchlist_list.html",
@@ -159,7 +177,5 @@ def watchlist_add_modal_view(request):
     else:   # This will fill the modal if get-request
         jobform = JobAddForm()
 
-    context = {}
-    context["jobform"] = jobform
-    print("get partials/watchlist_add_modal.html")
+    context = {"jobform": jobform}
     return render(request, "partials/watchlist_add_modal.html", context)
