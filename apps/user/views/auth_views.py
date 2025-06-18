@@ -14,7 +14,7 @@ class RegisterView(FormView):
     """
     template_name = 'register.html'
     form_class = UserRegisterForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy("dashboard:home")
 
     def form_valid(self, form):
         user = form.save()
@@ -27,7 +27,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
     """
     Displays the home page for authenticated users.
     """
-    template_name = 'dashboard/dashboard.html'
+    template_name = "home.html"
 
 
 # ----------------- Logout View -----------------
