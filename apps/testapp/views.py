@@ -8,8 +8,8 @@ from apps.application.models.application import Application
 from apps.job.models import Job
 from apps.watchlist.models import Watchlist
 
-from sample_data import job_titles, company_names, locations, job_descriptions
-from sample_data import contact_names, phone_numbers, comments
+from .sample_data import job_titles, company_names, locations, job_descriptions
+from .sample_data import contact_names, phone_numbers, comments
 
 
 start_date: datetime = datetime(2021, 1, 1)
