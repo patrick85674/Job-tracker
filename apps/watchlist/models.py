@@ -1,9 +1,8 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
+
 from apps.common.models.base_models import DateColumns
 from apps.job.models import Job
-from apps.common.models.base_models import DateColumns
-
 
 
 class Watchlist(DateColumns):
