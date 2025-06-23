@@ -1,4 +1,4 @@
-
+{% load i18n %}
 <div class="watchlist">
   {% for item in watchlist_items %}
   <div class="job-item">
@@ -9,12 +9,12 @@
 
       {% if item.job.link %}
       <a href="{{ item.job.link }}" class="job-link" target="_blank"
-        rel="noopener noreferrer">Job Link</a>
+        rel="noopener noreferrer">{% translate "Job Link" %}</a>
       {% endif %}
     </div>
     <div class="job-right">
       <p>{{ item.job.job_description }}</p>
-      <small>Last updated {{ item.updated_at|date:"F j, Y, H:i:s" }}</small>
+      <small>{% blocktrans with datetime=item.updated_at|date:"F j, Y, H:i:s" %}Last updated {{ datetime }}{% endblocktrans %}</small>
     </div>
     <div>
       <!-- Edit Button -->
@@ -22,7 +22,7 @@
         hx-get="{% url 'watchlist:watchlist_edit_modal' item.id %}"
         hx-target="#modal-body"
         hx-swap="innerHTML">
-        Edit
+        {% translate "Edit" %}
       </button>
     </div>
     <div>
@@ -33,13 +33,13 @@
         hx-target="#watch-list"
         hx-swap="innerHTML"
         class="filter-input"
-        hx-confirm="Are you sure you want to delete this Watchlist entry?">
+        hx-confirm="{% translate 'Are you sure you want to delete this Watchlist entry?' %}">
         {% csrf_token %}
-        <input type="submit" value="Delete">
+        <input type="submit" value="{% translate 'Delete' %}">
       </form>
     </div>
   </div>
   {% empty %}
-  <p>No jobs found in your watchlist.</p>
+  <p>{% translate "No jobs found in your watchlist." %}</p>
   {% endfor %}
 </div>
