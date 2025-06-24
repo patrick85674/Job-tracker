@@ -22,6 +22,11 @@ from apps.application.views.partials.application_list_partial_view import (
 from apps.application.views.partials.application_add_modal_view import (
     application_add_modal_view,
 )
+
+from apps.application.views.partials.application_add_from_job_modal_view import (
+    application_add_from_job_modal_view,
+)
+
 app_name = "application"
 
 urlpatterns = [
@@ -52,5 +57,10 @@ urlpatterns = [
     ),
     path(
         "add/modal/", application_add_modal_view, name="application_add_modal"
+    ),
+    path(
+        "add_from_job/<int:id>/modal/",
+        application_add_from_job_modal_view,
+        name="application_add_from_job_modal",
     ),
 ]

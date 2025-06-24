@@ -1,5 +1,7 @@
 
 {% load i18n %}
+
+<div id="application-list">
 {% for item in application_items %}
 <div class="application-item" id="application-{{ item.id }}">
     <div class="application-left">
@@ -43,9 +45,10 @@
         </form>
     </div>
 </div>
+
 {% empty %}
 <p>{% translate "No jobs found in your application list." %}</p>
 {% endfor %}
-
+</div>
 <div id="flash-message"
     style="display:none; padding:10px; background:#d4edda; color:#155724; margin-bottom: 1rem; border-radius: 5px;"></div>
