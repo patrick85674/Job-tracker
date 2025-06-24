@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<h2>{% translate "Add Job to watchlist" %}</h2>
+<form method="post" hx-post="{% url 'watchlist:watchlist_edit_modal' watchlist_item.id  %}"
+    hx-target="#watch-list" hx-swap="innerHTML">
+    {% csrf_token %}
+    <table id="watchlist_add_form_table">
+        <fieldset>
+            <legend>{% translate "Job Information" %}</legend>
+            {{ jobform.as_p }}
+        </fieldset>
+
+    </table>
+
+    <button type="submit" id="modal-save">{% translate "Edit your job" %}</button>
+    </form>

@@ -35,10 +35,11 @@ def application_edit_modal_view(request, id):
                 .order_by("-updated_at")
                 .select_related("job")[:DASHBOARD_APPLICATION_LIMIT]
             )
+            context = {"application_items": application_items}
             return render(
                 request,
                 "partials/application_list_partial.html",
-                {"application_items": application_items},
+                context,
             )
     else:
         appform = ApplicationAddForm(None, instance=application)
