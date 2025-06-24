@@ -1,5 +1,5 @@
-.application-list,
-.watchlist {
+#application-list,
+#watch-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
