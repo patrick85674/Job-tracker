@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from apps.watchlist import views as watchlist_views
-from apps.application.views import application_list_partial_view as application_views
+from apps.application.views.partials import application_list_partial_view as application_views
 
 app_name = "dashboard"
 

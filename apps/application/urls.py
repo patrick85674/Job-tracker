@@ -10,19 +10,18 @@ from apps.application.views.application_remove_view import (
 from apps.application.views.application_report_view import (
     application_report_view,
 )
-from apps.application.views.application_edit_modal_view import (
+from apps.application.views.partials.application_edit_modal_view import (
     application_edit_modal_view,
 )
-from apps.application.views.application_partial_remove_view import (
+from apps.application.views.partials.application_partial_remove_view import (
     partial_remove_view as application_partial_remove_view,
 )
-from apps.application.views.application_list_partial_view import (
+from apps.application.views.partials.application_list_partial_view import (
     application_list_partial,
 )
-from apps.application.views.application_add_modal_view import (
+from apps.application.views.partials.application_add_modal_view import (
     application_add_modal_view,
 )
-
 app_name = "application"
 
 urlpatterns = [

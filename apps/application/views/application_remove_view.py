@@ -4,9 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 
 from apps.application.models.application import Application
-from apps.application.views.application_list_partial_view import (
-    application_list_partial,
-)
+
 
 
 @login_required
