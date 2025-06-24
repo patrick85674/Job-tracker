@@ -1,11 +1,7 @@
-from apps.application.views.application_remove_view import (
-    application_remove_view,
-)
-from apps.application.views.application_list_partial_view import (
-    application_list_partial,
-)
+from apps.application.views.application_remove_view import application_remove_view
+from apps.application.views.partials.application_list_partial_view import application_list_partial
+
 from django.contrib.auth.decorators import login_required
-# from django.shortcuts import render, redirect, get_object_or_404
 
 
 @login_required
