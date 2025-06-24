@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<h2>{% translate "Add Job to Application list" %}</h2>
+<form method="post" hx-post="{% url 'application:application_edit_modal' application.id %}"
+    hx-target="#application-list" hx-swap="innerHTML">
+    {% csrf_token %}
+    <table id="application_add_form_table">
+        <fieldset>
+            <legend>{% translate "Job Information" %}</legend>
+            {{ jobform.as_p }}
+        </fieldset>
+
+        <fieldset>
+            <legend>{% translate "Application Information" %}</legend>
+            {{ appform.as_p }}
+        </fieldset>
+
+    </table>
+
+    <button type="submit" id="modal-save">{% translate "Edit your application" %}</button>
+    </form>

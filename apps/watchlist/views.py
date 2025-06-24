@@ -16,9 +16,11 @@ def watchlist_partial(request):
     Returns user's watchlist items based on query.
     """
     query = request.GET.get("q", "").strip()
-    watchlist_items = Watchlist.objects.filter(
-        user=request.user
-    ).order_by("-updated_at").select_related("job")
+    watchlist_items = (
+        Watchlist.objects.filter(user=request.user)
+        .order_by("-updated_at")
+        .select_related("job")
+    )
 
     if query:
         watchlist_items = watchlist_items.filter(
@@ -35,6 +37,7 @@ def watchlist_partial(request):
 
 
 from django.http import HttpRequest, HttpResponse
+
 
 @login_required
 def add_job_to_watchlist(request: HttpRequest) -> HttpResponse:
@@ -64,9 +67,11 @@ def current_watchlist(request: HttpRequest) -> HttpResponse:
     """
     Render the current user's watchlist.
     """
-    watchlist_items = Watchlist.objects.filter(
-        user=request.user
-    ).order_by("-updated_at").select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
+    watchlist_items = (
+        Watchlist.objects.filter(user=request.user)
+        .order_by("-updated_at")
+        .select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
+    )
     return render(
         request,
         "partials/watchlist_list.html",
@@ -138,10 +143,36 @@ def watchlist_edit_modal_view(request: HttpRequest, id: int) -> HttpResponse:
             _("No permission to change this application!")
         )
 
-    jobform = JobAddForm(instance=watchlist_item.job)
+    if request.method == "POST":
+        jobform = JobAddForm(request.POST, instance=watchlist_item.job)
 
-    context = {"jobform": jobform, "watchlist_item": watchlist_item}
-    return render(request, "partials/watchlist_edit_partial.html", context)
+        if jobform.is_valid():
+            jobform.save()
+
+            # context = {}
+
+            # Return updated Application list partial so HTMX can update the page
+            watchlist_items = (
+                Watchlist.objects.filter(user=request.user)
+                .order_by("-updated_at")
+                .select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
+            )
+
+            context = {"watchlist_items": watchlist_items}
+            return render(
+                request,
+                "partials/watchlist_list.html",
+                context,
+            )
+    else:
+        jobform = JobAddForm(None, instance=watchlist_item.job)
+
+    context = {
+        "jobform": jobform,
+        "watchlist_item": watchlist_item,
+    }
+
+    return render(request, "partials/watchlist_edit_modal.html", context)
 
 
 @login_required
@@ -163,9 +194,7 @@ def watchlist_add_modal_view(request: HttpRequest) -> HttpResponse:
 
             # Return updated Application list partial so HTMX can update the page
             watchlist_items = (
-                Watchlist.objects.filter(
-                    user=request.user
-                )
+                Watchlist.objects.filter(user=request.user)
                 .order_by("-updated_at")
                 .select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
             )
@@ -174,7 +203,7 @@ def watchlist_add_modal_view(request: HttpRequest) -> HttpResponse:
                 "partials/watchlist_list.html",
                 {"watchlist_items": watchlist_items},
             )
-    else:   # This will fill the modal if get-request
+    else:  # This will fill the modal if get-request
         jobform = JobAddForm()
 
     context = {"jobform": jobform}
