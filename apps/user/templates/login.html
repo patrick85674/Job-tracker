@@ -4,7 +4,11 @@
 {% block title %}{% translate "Login" %}{% endblock %}
 
 {% block main %}
-  <h2>{% translate "Login" %}</h2>
+  <h2 style="text-align: center; margin-top: 60px;">{% translate "Login" %}</h2>
+
+  <div style="display: flex; justify-content: center;">
+    <div style="max-width: 400px; width: 100%;">
+
 
   {% if form.non_field_errors %}
     <div style="color: red;">
@@ -27,4 +31,6 @@
   <p><a href="{% url 'password_reset' %}">{% translate "Forgot your password?" %}</a></p>
 {% url 'register' as register_url %}
   <p>{% blocktrans with register_url=register_url %}Don't have an account? <a href="{{ register_url }}">Register here</a>{% endblocktrans %}</p>
+   </div>
+  </div>
 {% endblock %}
