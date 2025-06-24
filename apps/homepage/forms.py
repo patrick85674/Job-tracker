@@ -1,5 +1,8 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
+
 from .models import EmailSubscription
+
 
 class EmailSubscriptionForm(forms.ModelForm):
     class Meta:
@@ -8,6 +11,6 @@ class EmailSubscriptionForm(forms.ModelForm):
         widgets = {
             'email': forms.EmailInput(attrs={
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Email Address'
+                'placeholder': _("Email Address"),
             }),
         }
