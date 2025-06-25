@@ -9,9 +9,17 @@
 <link href="{% static 'dashboard/css/dashboard.css' %}" rel="stylesheet" />
 {% endblock %}
 
+
+
+
 {% block main %}
 
-<h1>{% translate "My Dashboard" %}</h1>
+{% translate "My Dashboard" as headline %}
+{% block headline %}
+    {{ block.super }}
+{% endblock %}
+
+<!-- <h1>{% translate "My Dashboard" %}</h1> -->
 
 <!-- Watchlist-->
 <div class="job-box">
