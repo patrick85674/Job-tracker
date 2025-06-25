@@ -1,15 +1,18 @@
 {% extends 'main.html' %}
 {% load i18n %}
 
+
+
 {% block main %}
+
+{% translate "My Applications" as headline %}
+{% block headline %}
+    {{ block.super }}
+{% endblock %}
+
 <div class="container my-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>{% translate "Applications" %}</h3>
-        <a href="{% url 'application:application_add' %}" class="btn btn-success">
-            {% translate "Add New Application" %}
-        </a>
-    </div>
+
 
     <!-- Filter Form -->
     <form method="get" class="row g-3 align-items-end mb-4">
@@ -43,9 +46,9 @@
         <div class="col-md-2">
             <label for="sort" class="form-label">{% translate "Sort by" %}</label>
             <select name="sort" id="sort" class="form-select">
-                <option value="">{% translate "Default" %}</option>
+                <option value="">{% translate "Last updated" %}</option>
                 <option value="status" {% if filters.sort == "status" %}selected{% endif %}>{% translate "Status" %}</option>
-                <option value="created_at" {% if filters.sort == "created_at" %}selected{% endif %}>{% translate "Created Date" %}</option>
+                <option value="created_at" {% if filters.sort == "created_at" %}selected{% endif %}>{% translate "Created at" %}</option>
                 <option value="job__job_name" {% if filters.sort == "job__job_name" %}selected{% endif %}>{% translate "Job Name" %}</option>
                 <option value="job__company_name" {% if filters.sort == "job__company_name" %}selected{% endif %}>{% translate "Company Name" %}</option>
             </select>
@@ -64,6 +67,9 @@
         </a>
         <a href="{% url 'application:application_report' %}?{{ request.GET.urlencode }}&type=xlsx" class="btn btn-outline-primary">
             {% translate "Download XLSX Report" %}
+        </a>
+        <a href="{% url 'application:application_add' %}" class="btn btn-success">
+            {% translate "Add New Application" %}
         </a>
     </div>
 

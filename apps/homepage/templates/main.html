@@ -91,6 +91,16 @@
   </nav>
 {% endblock %}
 
+<!-- Optional Headline -->
+{% block headline %}
+  {% if headline %}
+    <div class="container py-4">
+      <h1 class="display-4 text-center text-primary">{{ headline }}</h1>
+    </div>
+  {% endif %}
+{% endblock %}
+
+
         {% block main %}
 
         <!-- Masthead-->
