@@ -1,5 +1,5 @@
 {% load i18n %}
-<div id="watch-list"></div>
+
 {% for item in watchlist_items %}
 <div class="job-item">
   <div class="job-left">
@@ -51,4 +51,3 @@
 {% empty %}
 <p>{% translate "No jobs found in your watchlist." %}</p>
 {% endfor %}
-</div>

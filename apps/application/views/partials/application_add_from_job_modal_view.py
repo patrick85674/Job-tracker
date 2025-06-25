@@ -59,24 +59,31 @@ def application_add_from_job_modal_view(request, id):
                 .select_related("job")[:DASHBOARD_WATCHLIST_LIMIT]
             )
 
-            watchlist_html = render_to_string(
-                "partials/watchlist_list.html",
-                {"watchlist_items": watchlist_items},
-                request=request,
-            )
+            # watchlist_html = render_to_string(
+            #     "partials/watchlist_list.html",
+            #     {"watchlist_items": watchlist_items},
+            #     request=request,
+            # )
 
-            application_html = render_to_string(
-                "partials/application_list_partial.html",
-                {"application_items": application_items},
-                request=request,
-            )
+            # application_html = render_to_string(
+            #     "partials/application_list_partial.html",
+            #     {"application_items": application_items},
+            #     request=request,
+            # )
             # Render both lists
-            response_html = (
-                f'<div id="watch-list" hx-swap-oob="true">{watchlist_html}</div>'
-                f'<div id="application-list" hx-swap-oob="true">{application_html}</div>'
+            # response_html = (
+            #     f'<div id="watch-list" hx-swap-oob="true">{watchlist_html}</div>'
+            #     f'<div id="application-list" hx-swap-oob="true">{application_html}</div>'
+            # )
+            # return HttpResponse(response_html)
+            return render(
+                request,
+                "partials/update_lists_wrapper.html",
+                {
+                    "application_items": application_items,
+                    "watchlist_items": watchlist_items,
+                },
             )
-            return HttpResponse(response_html)
-
     else:
         # GET request — show prefilled form
         appform = ApplicationAddForm(initial={"job": job})
