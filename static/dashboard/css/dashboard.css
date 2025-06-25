@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .application-left,
 .job-left {
-  flex: 1 1 40%;
+  flex: 1 1 55%;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   max-width: 1200px;       
   margin: 0 auto;         
-  padding: 30px 40px;     
+  padding: 30px 0px;     
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -69,6 +69,7 @@ h1, h2, h3, h4, h5, h6 {
 .job-right {
   flex: 1 1 55%;
   padding-left: 20px;
+  text-align: left;
 }
 
 .application-right p,
@@ -116,6 +117,7 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none !important;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  white-space: nowrap;
 }
 
 .job-box .btn:hover,

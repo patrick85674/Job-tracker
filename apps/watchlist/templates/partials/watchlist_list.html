@@ -16,6 +16,16 @@
     <p>{{ item.job.job_description }}</p>
     <small>{% blocktrans with datetime=item.updated_at|date:"F j, Y, H:i:s" %}Last updated {{ datetime }}{% endblocktrans %}</small>
   </div>
+  
+  <div style="flex: 1 1 15%;">
+    <!-- Job2Application Button -->
+    <button
+      hx-get="{% url 'application:application_add_from_job_modal' item.id %}"
+      hx-target="#modal-body"
+      hx-swap="innerHTML">
+      {% translate "New Application" %}
+    </button>
+  </div>
   <div>
     <!-- Edit Button -->
     <button
@@ -38,15 +48,7 @@
       <input type="submit" value="{% translate 'Delete' %}">
     </form>
   </div>
-  <div>
-    <!-- Job2Application Button -->
-    <button
-      hx-get="{% url 'application:application_add_from_job_modal' item.id %}"
-      hx-target="#modal-body"
-      hx-swap="innerHTML">
-      {% translate "New Application" %}
-    </button>
-  </div>
+  
 </div>
 {% empty %}
 <p>{% translate "No jobs found in your watchlist." %}</p>
