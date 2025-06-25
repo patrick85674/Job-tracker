@@ -1,5 +1,7 @@
 
 {% load i18n %}
+
+
 {% for item in application_items %}
 <div class="application-item" id="application-{{ item.id }}">
     <div class="application-left">
@@ -43,6 +45,7 @@
         </form>
     </div>
 </div>
+
 {% empty %}
 <p>{% translate "No jobs found in your application list." %}</p>
 {% endfor %}
