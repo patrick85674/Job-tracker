@@ -20,6 +20,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["127.0.0.1"]
 
 INSTALLED_APPS += ["apps.testapp"]
+INSTALLED_APPS += ["django_extensions"]
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
