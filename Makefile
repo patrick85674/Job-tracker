@@ -19,3 +19,5 @@ dev-test:
 create-secret:
 	python -c "import secrets; print(secrets.token_urlsafe(50))"
 
+graph_models:
+	python manage.py graph_models -a -o models.png
